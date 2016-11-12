@@ -1,17 +1,35 @@
 package supporter.models;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * Created by Ivaylo on 12-Nov-16.
  */
-public class Ticket {
-    private Long id;
-    private String title;
-    private String body;
-    private User author;
-    private Date date = new Date();
 
+@Entity
+@Table(name = "tickets")
+public class Ticket {
+
+    //region Fields
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, length = 300)
+    private String title;
+
+    @Lob @Column(nullable = false)
+    private String body;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private User author;
+
+    @Column(nullable = false)
+    private Date date = new Date();
+    //endregion
+
+    //region Constructors
     public Ticket(Long id, String title, String body, User author) {
         this.setId(id);
         this.setTitle(title);
@@ -21,8 +39,10 @@ public class Ticket {
 
     public Ticket() {
     }
+    //endregion
 
     // TODO: 12-Nov-16 Add validation constraints for fields
+    //region Properties
     public Long getId() {
         return id;
     }
@@ -62,6 +82,7 @@ public class Ticket {
     private void setDate(Date date) {
         this.date = date;
     }
+    //endregion
 
     @Override
     public String toString() {
