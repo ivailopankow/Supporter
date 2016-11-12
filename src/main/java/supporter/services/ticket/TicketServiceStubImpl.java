@@ -35,7 +35,7 @@ public class TicketServiceStubImpl
     }
 
     @Override
-    public List<Ticket> findLatest5() {
+    public List<Ticket> findLatestFive() {
         return this.tickets.stream()
                            .sorted((a, b) -> b.getDate().compareTo(a.getDate()))
                            .limit(5)

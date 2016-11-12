@@ -32,7 +32,7 @@ public class TicketsController {
     @RequestMapping("/tickets/view/{id}")
     public String viewTicket(@PathVariable("id") Long ticketId, Model model){
         Ticket ticket = ticketService.findById(ticketId);
-        List<Ticket> asideTickets = ticketService.findLatest5();
+        List<Ticket> asideTickets = ticketService.findLatestFive();
 
         if (ticket == null) {
             notificationService.addErrorMessage("Cannot find ticket #" + ticketId);

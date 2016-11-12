@@ -24,7 +24,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String homePage(Model model){
-        List<Ticket> tickets = ticketService.findLatest5();
+        List<Ticket> tickets = ticketService.findLatestFive();
         model.addAttribute(LATEST_FIVE_TICKETS, tickets);
         List<Ticket> latestThreeTickets = tickets.subList(0, 3);
         model.addAttribute(LATEST_THREE_TICKETS, latestThreeTickets);

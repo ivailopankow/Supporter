@@ -9,7 +9,7 @@ import supporter.models.Ticket;
  */
 public interface TicketService {
     List<Ticket> findAll();
-    List<Ticket> findLatest5();
+    List<Ticket> findLatestFive();
     Ticket findById(Long id);
     Ticket create(Ticket ticket);
     Ticket edit(Ticket ticket);
