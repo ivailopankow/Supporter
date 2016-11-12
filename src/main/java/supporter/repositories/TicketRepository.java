@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
-    @Query("SELECT t FROM Ticket t LEFT JOIN FETCH p.author ORDER BY p.date DESC")
+    @Query("SELECT t FROM Ticket t LEFT JOIN FETCH t.author ORDER BY t.date DESC")
     List<Ticket> findLatestFivePosts(Pageable pageable);
 
 }
