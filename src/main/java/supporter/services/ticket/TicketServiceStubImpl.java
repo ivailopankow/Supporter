@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import supporter.model.Ticket;
-import supporter.model.User;
+import supporter.models.Ticket;
+import supporter.models.User;
 
 /**
  * Created by Ivaylo on 12-Nov-16.

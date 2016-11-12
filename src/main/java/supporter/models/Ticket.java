@@ -1,4 +1,4 @@
-package supporter.model;
+package supporter.models;
 
 import java.util.Date;
 
@@ -47,7 +47,7 @@ public class Ticket {
         this.body = body;
     }
 
-    private User getAuthor() {
+    public User getAuthor() {
         return author;
     }
 

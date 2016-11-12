@@ -1,4 +1,4 @@
-package supporter.model;
+package supporter.models;
 
 
 import java.util.HashSet;
@@ -42,7 +42,7 @@ public class User {
         this.userCategory = userCategory;
     }
 
-    private String getUsername() {
+    public String getUsername() {
         return username;
     }
 
@@ -50,7 +50,7 @@ public class User {
         this.username = username;
     }
 
-    private String getPasswordHash() {
+    public String getPasswordHash() {
         return passwordHash;
     }
 
@@ -58,7 +58,7 @@ public class User {
         this.passwordHash = passwordHash;
     }
 
-    private String getFullName() {
+    public String getFullName() {
         return fullName;
     }
 
@@ -66,7 +66,7 @@ public class User {
         this.fullName = fullName;
     }
 
-    private Set<Ticket> getPosts() {
+    public Set<Ticket> getPosts() {
         return posts;
     }
 

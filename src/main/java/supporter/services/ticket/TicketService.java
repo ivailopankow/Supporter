@@ -2,7 +2,7 @@ package supporter.services.ticket;
 
 import java.util.List;
 
-import supporter.model.Ticket;
+import supporter.models.Ticket;
 
 /**
  * Created by Ivaylo on 12-Nov-16.
