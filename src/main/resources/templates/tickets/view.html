@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="layout :: site-head">
-    <title th:text="${ticket.title}">Welcome to SSS</title>
+    <title th:text="${ticket.title}">View Post</title>
 </head>
 
 <body>
-    <header th:replace="layout :: site-header"/>
+<header th:replace="layout :: site-header" />
 
     <aside>
         <h2>Recent Tickets</h2>
@@ -24,13 +24,12 @@
                     <i>by</i> <span th:text="${ticket.author.fullName != null ?
                          ticket.author.fullName : ticket.author.username}">Ivaylo</span>
                 </span>
-            </div>
-            <p class="content" th:utext="${ticket.body}">Post content</p>
-        </article>
-    </main>
+        </div>
+        <p class="content" th:utext="${ticket.body}">Ticket content</p>
+    </article>
+</main>
 
-
-    <footer th:replace="layout :: site-footer"/>
+<footer th:replace="layout :: site-footer" />
 </body>
 
 </html>

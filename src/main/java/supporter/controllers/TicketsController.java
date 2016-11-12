@@ -35,9 +35,9 @@ public class TicketsController {
         List<Ticket> asideTickets = ticketService.findLatest5();
 
         if (ticket == null) {
-            notificationService.addErrorMessage("Can not find ticket with id: " + ticketId);
+            notificationService.addErrorMessage("Cannot find post #" + ticketId);
+            return "redirect:/";
         }
-
         model.addAttribute(TICKET, ticket);
         model.addAttribute(LATEST_FIVE_TICKETS, asideTickets);
         return TICKET_VIEW;
