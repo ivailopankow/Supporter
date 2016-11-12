@@ -12,7 +12,7 @@ public class User {
     private String username;
     private String passwordHash;
     private String fullName;
-    private Set<Ticket> posts = new HashSet<>();
+    private Set<Ticket> tickets = new HashSet<>();
     private Category userCategory;
 
     public User(Long id, Category userCategory, String username, String fullName) {
@@ -66,12 +66,12 @@ public class User {
         this.fullName = fullName;
     }
 
-    public Set<Ticket> getPosts() {
-        return posts;
+    public Set<Ticket> getTickets() {
+        return tickets;
     }
 
-    private void setPosts(Set<Ticket> posts) {
-        this.posts = posts;
+    private void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     @Override

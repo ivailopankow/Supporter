@@ -66,7 +66,7 @@ public class TicketServiceStubImpl
                 return ticket;
             }
         }
-        throw new RuntimeException("Post not found: " + ticket.getId());
+        throw new RuntimeException("Ticket not found: " + ticket.getId());
 
     }
 
@@ -78,22 +78,22 @@ public class TicketServiceStubImpl
                 return;
             }
         }
-        throw new RuntimeException("Post not found: " + id);
+        throw new RuntimeException("Ticket not found: " + id);
     }
 //endregion Overridden Methods
 
     //region Helper Methods
     private void init() {
         this.tickets = Arrays.asList(
-                new Ticket(1L, "First Post", "<p>Line #1.</p><p>Line #2</p>", null),
-                new Ticket(2L, "Second Post",
-                           "Second post content:<ul><li>line 1</li><li>line 2</li></p>",
+                new Ticket(1L, "First Ticket", "<p>Line #1.</p><p>Line #2</p>", null),
+                new Ticket(2L, "Second Ticket",
+                           "Second Ticket content:<ul><li>line 1</li><li>line 2</li></p>",
                            new User(10L, User.Category.CONSUMER, "pesho10", "Peter Ivanov")),
-                new Ticket(3L, "Post #3", "<p>The post number 3 nice</p>",
+                new Ticket(3L, "Ticket #3", "<p>The ticket number 3 nice</p>",
                            new User(10L, User.Category.CONSUMER, "merry", null)),
-                new Ticket(4L, "Forth Post", "<p>Not interesting post</p>", null),
-                new Ticket(5L, "Post Number 5", "<p>Just posting</p>", null),
-                new Ticket(6L, "Sixth Post", "<p>Another interesting post</p>", null)
+                new Ticket(4L, "Forth Ticket", "<p>Not interesting ticket</p>", null),
+                new Ticket(5L, "Ticket Number 5", "<p>Just posting</p>", null),
+                new Ticket(6L, "Sixth Ticket", "<p>Another interesting ticket</p>", null)
         );
     }
 //endregion Helper Methods
