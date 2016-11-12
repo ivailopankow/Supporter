@@ -8,6 +8,12 @@
 <body>
     <header th:replace="layout :: site-header"/>
 
+    <aside>
+        <h2>Recent Posts</h2>
+        <a href="#" th:each="ticket : ${latestFiveTickets}" th:text="${ticket.title}"
+           th:href="@{/posts/view/{id}/(id=${ticket.id})}">Work Begins on HTML5.1</a>
+    </aside>
+
     <main id="tickets">
         <article th:each="ticket : ${latestThreeTickets}">
             <h2 class="title" th:text="${ticket.title}">Ticket Title</h2>
