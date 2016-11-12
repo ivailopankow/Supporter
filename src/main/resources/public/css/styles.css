@@ -113,5 +113,10 @@ ul#messages li.error {
     color: white;
 }
 
+.formError {
+    color: red;
+    font-style: italic;
+}
+
 
 
