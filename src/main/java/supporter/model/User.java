@@ -13,23 +13,33 @@ public class User {
     private String passwordHash;
     private String fullName;
     private Set<Ticket> posts = new HashSet<>();
+    private Category userCategory;
 
-
-    private User(Long id, String username, String fullName) {
-        this.id = id;
-        this.username = username;
-        this.fullName = fullName;
+    public User(Long id, Category userCategory, String username, String fullName) {
+        this.setId(id);
+        this.setUserCategory(userCategory);
+        this.setUsername(username);
+        this.setFullName(fullName);
     }
 
     private User() {
     }
 
+    // TODO: 12-Nov-16 Add validation constraints for fields
     private Long getId() {
         return id;
     }
 
     private void setId(Long id) {
         this.id = id;
+    }
+
+    public Category getUserCategory() {
+        return userCategory;
+    }
+
+    private void setUserCategory(Category userCategory) {
+        this.userCategory = userCategory;
     }
 
     private String getUsername() {
@@ -72,5 +82,9 @@ public class User {
                ", passwordHash='" + passwordHash + '\'' +
                ", fullName='" + fullName + '\'' +
                '}';
+    }
+
+    public enum Category {
+        DEVELOPER, SUPPORTER, CONSUMER
     }
 }

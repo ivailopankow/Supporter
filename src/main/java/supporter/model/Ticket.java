@@ -12,25 +12,26 @@ public class Ticket {
     private User author;
     private Date date = new Date();
 
-    private Ticket(Long id, String title, String body, User author) {
-        this.id = id;
-        this.title = title;
-        this.body = body;
-        this.author = author;
+    public Ticket(Long id, String title, String body, User author) {
+        this.setId(id);
+        this.setTitle(title);
+        this.setBody(body);
+        this.setAuthor(author);
     }
 
-    private Ticket() {
+    public Ticket() {
     }
 
-    private Long getId() {
+    // TODO: 12-Nov-16 Add validation constraints for fields
+    public Long getId() {
         return id;
     }
 
-    private void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    private String getTitle() {
+    public String getTitle() {
         return title;
     }
 
@@ -38,7 +39,7 @@ public class Ticket {
         this.title = title;
     }
 
-    private String getBody() {
+    public String getBody() {
         return body;
     }
 
@@ -54,7 +55,7 @@ public class Ticket {
         this.author = author;
     }
 
-    private Date getDate() {
+    public Date getDate() {
         return date;
     }
 
