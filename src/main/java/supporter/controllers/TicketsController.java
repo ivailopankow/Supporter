@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 import supporter.models.Ticket;
+import supporter.services.NotificationService;
 import supporter.services.ticket.TicketService;
 
 /**
@@ -25,10 +26,18 @@ public class TicketsController {
     @Autowired
     private TicketService ticketService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @RequestMapping("/tickets/view/{id}")
     public String viewTicket(@PathVariable("id") Long ticketId, Model model){
         Ticket ticket = ticketService.findById(ticketId);
         List<Ticket> asideTickets = ticketService.findLatest5();
+
+        if (ticket == null) {
+            notificationService.addErrorMessage("Can not find ticket with id: " + ticketId);
+        }
+
         model.addAttribute(TICKET, ticket);
         model.addAttribute(LATEST_FIVE_TICKETS, asideTickets);
         return TICKET_VIEW;
