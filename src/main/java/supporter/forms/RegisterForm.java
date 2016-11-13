@@ -1,14 +1,16 @@
 package supporter.forms;
 
+import supporter.models.User;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Created by Ivaylo on 12-Nov-16.
+ * Created by Ivaylo on 13-Nov-16.
  */
-public class LoginForm {
-//region Fields
+public class RegisterForm {
+
+
     @Size(min = ValidationRules.USERNAME_MIN_LENGTH,
             max = ValidationRules.USERNAME_MAX_LENGTH,
             message = ValidationRules.USERNAME_ERROR_MESSAGE)
@@ -16,11 +18,15 @@ public class LoginForm {
 
     @NotNull
     @Size(min = ValidationRules.PASSWORD_MIN_LENGTH,
-            max = ValidationRules.USERNAME_MAX_LENGTH)
+            max = ValidationRules.PASSWORD_MAX_LENGTH)
     private String password;
-//endregion Fields
 
-//region Properties
+    @Size(min = ValidationRules.FULL_NAME_MIN_LENGTH,
+            max = ValidationRules.FULL_NAME_MAX_LENGTH)
+    private String fullName;
+
+    private User.Category userCategory;
+
     public String getUsername() {
         return username;
     }
@@ -36,6 +42,20 @@ public class LoginForm {
     public void setPassword(String password) {
         this.password = password;
     }
-//endregion Properties
-}
 
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public User.Category getUserCategory() {
+        return userCategory;
+    }
+
+    public void setUserCategory(User.Category userCategory) {
+        this.userCategory = userCategory;
+    }
+}
