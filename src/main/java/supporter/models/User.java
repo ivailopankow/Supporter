@@ -18,6 +18,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.ORDINAL)
+    private Category userCategory;
+
     @Column(nullable = false, length = 30, unique = true)
     private String username;
 
@@ -29,9 +32,6 @@ public class User {
 
     @OneToMany(mappedBy = "author")
     private Set<Ticket> tickets = new HashSet<>();
-
-    @Enumerated(EnumType.STRING)
-    private Category userCategory;
     //endregion
 
     //region Constructors
