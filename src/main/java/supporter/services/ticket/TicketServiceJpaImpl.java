@@ -32,7 +32,7 @@ public class TicketServiceJpaImpl implements TicketService {
 
     @Override
     public Ticket findById(Long id) {
-        return this.ticketRepository.findOne(id);
+        return this.ticketRepository.getOne(id);
     }
 
     @Override
