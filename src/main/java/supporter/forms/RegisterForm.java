@@ -1,7 +1,5 @@
 package supporter.forms;
 
-import supporter.models.User;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -21,11 +19,18 @@ public class RegisterForm {
             max = ValidationRules.PASSWORD_MAX_LENGTH)
     private String password;
 
-    @Size(min = ValidationRules.FULL_NAME_MIN_LENGTH,
-            max = ValidationRules.FULL_NAME_MAX_LENGTH)
-    private String fullName;
+    @Size(min = ValidationRules.FIRST_NAME_MIN_LENGTH,
+            max = ValidationRules.FIRST_NAME_MAX_LENGTH)
+    private String firstName;
 
-    private User.Category userCategory;
+    @Size(min = ValidationRules.LAST_NAME_MIN_LENGTH,
+            max = ValidationRules.LAST_NAME_MAX_LENGTH)
+
+    public String lastName;
+
+    public String repeatedPassword;
+
+    public String userCategory;
 
     public String getUsername() {
         return username;
@@ -43,19 +48,35 @@ public class RegisterForm {
         this.password = password;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public User.Category getUserCategory() {
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getRepeatedPassword() {
+        return repeatedPassword;
+    }
+
+    public void setRepeatedPassword(String repeatedPassword) {
+        this.repeatedPassword = repeatedPassword;
+    }
+
+    public String getUserCategory() {
         return userCategory;
     }
 
-    public void setUserCategory(User.Category userCategory) {
+    public void setUserCategory(String userCategory) {
         this.userCategory = userCategory;
     }
 }

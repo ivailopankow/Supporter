@@ -42,7 +42,7 @@ public class User {
         this.setFullName(fullName);
     }
 
-    private User() {
+    public User() {
     }
     //endregion
 
@@ -108,6 +108,6 @@ public class User {
     }
 
     public enum Category {
-        DEVELOPER, SUPPORTER, CONSUMER
+        DEVELOPER, TESTER, SUPPORTER, CONSUMER
     }
 }

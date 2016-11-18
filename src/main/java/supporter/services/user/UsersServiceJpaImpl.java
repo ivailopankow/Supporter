@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 import supporter.models.User;
 import supporter.repositories.UserRepository;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Created by Ivaylo on 12-Nov-16.
@@ -47,7 +50,7 @@ public class UsersServiceJpaImpl implements UserService {
 
     @Override
     public boolean authenticate(String username, String password) {
-        return false;
+        return Objects.equals(username, password);
     }
 
     @Override
@@ -63,5 +66,12 @@ public class UsersServiceJpaImpl implements UserService {
     @Override
     public void setPassword(String username, String newPassword) {
 
+    }
+
+    @Override
+    public List<User.Category> getRoles() {
+        User.Category[] rolesValues = User.Category.class.getEnumConstants();
+        return Arrays.stream(rolesValues)
+                .collect(Collectors.toList());
     }
 }

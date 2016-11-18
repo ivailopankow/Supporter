@@ -18,4 +18,6 @@ public interface UserService {
     User login(String username, String password);
     User register(String username, String password, String fullName);
     void setPassword(String username, String newPassword);
+
+    List<User.Category> getRoles();
 }

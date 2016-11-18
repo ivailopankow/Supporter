@@ -2,15 +2,18 @@ package supporter.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import supporter.forms.LoginForm;
 import supporter.forms.RegisterForm;
+import supporter.models.User;
 import supporter.services.NotificationService;
 import supporter.services.user.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by Ivaylo on 12-Nov-16.
@@ -24,6 +27,7 @@ public class AuthenticationController {
     static final String USERS_REGISTER_PAGE = "users/register";
     private static final String REDIRECT_HOME = "redirect:/";
     private static final String DELIMITER = "/";
+    private static final String ROLES = "userRoles";
     @Autowired
     UserService userService;
 
@@ -31,7 +35,7 @@ public class AuthenticationController {
     NotificationService notificationService;
 
     @RequestMapping(DELIMITER + USERS_LOGIN_PAGE)
-    public String showLoginPage(LoginForm loginForm) {
+    public String showLoginPage(@SuppressWarnings("UnusedParameters") LoginForm loginForm) {
         return USERS_LOGIN_PAGE;
     }
 
@@ -53,8 +57,32 @@ public class AuthenticationController {
     }
 
     @RequestMapping(DELIMITER + USERS_REGISTER_PAGE)
-    public String showRegisterPage(RegisterForm regForm) {
+    public String showRegisterPage(@SuppressWarnings("UnusedParameters") RegisterForm registerForm, Model model) {
+        List<User.Category> allRoles = userService.getRoles();
+        model.addAttribute(ROLES, allRoles);
         return USERS_REGISTER_PAGE;
+    }
+
+    @RequestMapping(value = DELIMITER + USERS_REGISTER_PAGE, method = RequestMethod.POST)
+    public String registerPage(@Valid RegisterForm registerForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            notificationService.addErrorMessage(ErrorMessages.ERROR_IN_FORM);
+            return USERS_REGISTER_PAGE;
+        }
+
+        User user = createUser(registerForm);
+
+        userService.create(user);
+
+        notificationService.addInfoMessage("Register successful");
+        return REDIRECT_HOME;
+    }
+
+    private User createUser(RegisterForm registerForm) {
+        User user = new User();
+
+
+        return user;
     }
 
 }
