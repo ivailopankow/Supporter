@@ -5,6 +5,7 @@ package supporter.controllers;
  */
 class ErrorMessages {
 
+    static final String PASSWORD_MISMATCH = "Entered passwords don not match!";
     static String ERROR_IN_FORM = "Please fill the form correctly!";
 
 }

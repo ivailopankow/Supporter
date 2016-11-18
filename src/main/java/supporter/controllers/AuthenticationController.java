@@ -70,6 +70,14 @@ public class AuthenticationController {
             return USERS_REGISTER_PAGE;
         }
 
+        String password = registerForm.getPassword();
+        String repeatedPassword = registerForm.getRepeatedPassword();
+
+        if (!password.equals(repeatedPassword)) {
+            notificationService.addErrorMessage(ErrorMessages.PASSWORD_MISMATCH);
+            return USERS_REGISTER_PAGE;
+        }
+
         User user = createUser(registerForm);
 
         userService.create(user);
@@ -79,9 +87,13 @@ public class AuthenticationController {
     }
 
     private User createUser(RegisterForm registerForm) {
-        User user = new User();
+        User.Category category = User.Category.valueOf(registerForm.getUserCategory());
+        String fullName = registerForm.getFirstName() + " " + registerForm.getLastName();
+        String password = registerForm.getPassword();
+        String username = registerForm.getUsername();
 
-
+        // TODO: 18-Nov-16 Hash the password here
+        User user = new User(category, username, password, fullName);
         return user;
     }
 

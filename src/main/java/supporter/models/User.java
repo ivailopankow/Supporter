@@ -42,6 +42,13 @@ public class User {
         this.setFullName(fullName);
     }
 
+    public User(Category userCategory, String username, String passwordHash, String fullName){
+        this.setUserCategory(userCategory);
+        this.setUsername(username);
+        this.setPasswordHash(passwordHash);
+        this.setFullName(fullName);
+    }
+
     public User() {
     }
     //endregion

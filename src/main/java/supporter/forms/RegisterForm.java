@@ -28,6 +28,7 @@ public class RegisterForm {
 
     public String lastName;
 
+
     public String repeatedPassword;
 
     public String userCategory;
