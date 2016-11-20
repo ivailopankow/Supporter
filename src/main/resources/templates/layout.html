@@ -3,10 +3,12 @@
 
 <head th:fragment="site-head">
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="../public/css/styles.css" th:href="@{/css/styles.css}" />
-    <link rel="icon" href="../public/img/favicon.ico" th:href="@{/img/favicon.ico}" />
-    <script src="../public/js/jquery-3.1.0.min.js" th:src="@{/js/jquery-3.1.0.min.js}"></script>
-    <script src="../public/js/supporter-scripts.js" th:src="@{/js/supporter-scripts.js}"></script>
+    <link th:href="@{/resources/css/bootstrap.css}" href="../public/resources/css/bootstrap.css" rel="stylesheet"/>
+    <link th:href="@{/resources/css/bootstrap-responsive.css}" href="../public/resources/css/bootstrap-responsive.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../public/resources/css/styles.css" th:href="@{/resources/css/styles.css}" />
+    <link rel="icon" href="../public/resources/img/favicon.ico" th:href="@{/resources/img/favicon.ico}" />
+    <script src="../public/resources/js/jquery-3.1.0.min.js" th:src="@{/resources/js/jquery-3.1.0.min.js}"></script>
+    <script src="../public/resources/js/supporter-scripts.js" th:src="@{/resources/js/supporter-scripts.js}"></script>
     <meta th:include="this :: head" th:remove="tag"/>
 </head>
 
@@ -14,19 +16,27 @@
 <header th:fragment="site-header" th:remove="tag">
     <header>
         <a href="index.html" th:href="@{/}"><img
-                src="../public/img/site-logo.png" th:src="@{/img/site-logo.png}" /></a>
+                src="../public/resources/img/site-logo.png" th:src="@{/resources/img/site-logo.png}" /></a>
         <a href="index.html" th:href="@{/}">Home</a>
         <a href="users/login.html" th:href="@{/users/login}">Login</a>
         <a href="users/register.html" th:href="@{/users/register}">Register</a>
         <a href="tickets/index.html" th:href="@{/tickets}">Tickets</a>
         <a href="tickets/create.html" th:href="@{/tickets/create}">Create Ticket</a>
         <a href="users/index.html" th:href="@{/users}">Users</a>
-        <div id="logged-in-info">
-            <span>Hello, <b>(user)</b></span>
-            <form method="ticket" th:action="@{/users/logout}">
-                <input type="submit" value="Logout"/>
-            </form>
+
+        <div id="logged-in-info" th:with="currentUser=
+        ${#httpServletRequest.userPrincipal?.name }">
+            <div th:if="${currentUser != null}">
+                <form class="navbar-form pull-right" th:action="@{/logout}" method="post">
+                    <input type="submit" value="Log out" />
+                </form>
+                <p class="navbar-text pull-right" th:text="${currentUser}">
+                    sample_user
+                </p>
+            </div>
+
         </div>
+
     </header>
 
     <ul id="messages" th:with="notifyMessages=${session[T(supporter.services

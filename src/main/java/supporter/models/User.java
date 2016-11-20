@@ -51,6 +51,10 @@ public class User {
 
     public User() {
     }
+
+    public User(User user) {
+        this(user.getUserCategory(), user.getUsername(), user.getPasswordHash(), user.getFullName());
+    }
     //endregion
 
     // TODO: 12-Nov-16 Add validation constraints for fields

@@ -1,5 +1,6 @@
 package supporter.services.user;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import supporter.models.User;
 
 import java.util.List;
@@ -18,6 +19,6 @@ public interface UserService {
     User login(String username, String password);
     User register(String username, String password, String fullName);
     void setPassword(String username, String newPassword);
-
-    List<User.Category> getRoles();
+    UserDetails loadUserByUsername(String username);
+    List<String> getRoles();
 }

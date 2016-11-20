@@ -58,7 +58,7 @@ public class AuthenticationController {
 
     @RequestMapping(DELIMITER + USERS_REGISTER_PAGE)
     public String showRegisterPage(@SuppressWarnings("UnusedParameters") RegisterForm registerForm, Model model) {
-        List<User.Category> allRoles = userService.getRoles();
+        List<String> allRoles = userService.getRoles();
         model.addAttribute(ROLES, allRoles);
         return USERS_REGISTER_PAGE;
     }
