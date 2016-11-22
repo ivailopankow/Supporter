@@ -23,12 +23,15 @@ public class User {
 
     private Set<Role> roles;
 
+    private Set<Product> products;
+
     public User(String email, String fullName, String password) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
 
         this.roles = new HashSet<>();
+        this.products = new HashSet<>();
     }
 
     public User() {    }
@@ -78,6 +81,15 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @OneToMany(mappedBy = "producer")
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 
     public void addRole(Role role) {
