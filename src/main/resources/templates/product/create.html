@@ -1,0 +1,30 @@
+<main>
+    <div class="container body-content span=8 offset=2">
+        <div class="well">
+            <form class="form-horizontal" th:action="@{/product/create}" method="post">
+                <fieldset>
+                    <legend>New Product</legend>
+
+                    <div class="form-group">
+                        <label for="product_title" class="col-sm-4 control-label">Product title</label>
+                        <div class="col-sm-4 ">
+                            <input type="text" class="form-control" id="product_title" placeholder="Product Title" name="title" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="product_content" class="col-sm-4 control-label">Content</label>
+                        <div class="col-sm-6">
+                            <textarea name="content" id="product_content" cols="30" rows="6" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <a th:href="@{/}" class="btn btn-default">Cancel</a>
+                            <input type="submit" class="btn btn-primary" value="Submit"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</main>
