@@ -13,112 +13,75 @@ import java.util.Set;
 @Table(name = "users")
 public class User {
 
-    //region Fields
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @Enumerated(EnumType.ORDINAL)
-    private Category userCategory;
+    private String email;
 
-    @Column(nullable = false, length = 30, unique = true)
-    private String username;
-
-    @Column(length = 60)
-    private String passwordHash;
-
-    @Column(length = 100)
     private String fullName;
 
-    @OneToMany(mappedBy = "author")
-    private Set<Ticket> tickets = new HashSet<>();
-    //endregion
+    private String password;
 
-    //region Constructors
-    public User(Long id, Category userCategory, String username, String fullName) {
-        this.setId(id);
-        this.setUserCategory(userCategory);
-        this.setUsername(username);
-        this.setFullName(fullName);
+    private Set<Role> roles;
+
+    public User(String email, String fullName, String password) {
+        this.email = email;
+        this.password = password;
+        this.fullName = fullName;
+
+        this.roles = new HashSet<>();
     }
 
-    public User(Category userCategory, String username, String passwordHash, String fullName){
-        this.setUserCategory(userCategory);
-        this.setUsername(username);
-        this.setPasswordHash(passwordHash);
-        this.setFullName(fullName);
-    }
+    public User() {    }
 
-    public User() {
-    }
-
-    public User(User user) {
-        this(user.getUserCategory(), user.getUsername(), user.getPasswordHash(), user.getFullName());
-    }
-    //endregion
-
-    // TODO: 12-Nov-16 Add validation constraints for fields
-    //region Properties
-    private Long getId() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer getId() {
         return id;
     }
 
-    private void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Category getUserCategory() {
-        return userCategory;
+    @Column(name = "email", unique = true, nullable = false)
+    public String getEmail() {
+        return email;
     }
 
-    private void setUserCategory(Category userCategory) {
-        this.userCategory = userCategory;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    private void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPasswordHash() {
-        return passwordHash;
-    }
-
-    private void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
-    }
-
+    @Column(name = "fullName", nullable = false)
     public String getFullName() {
         return fullName;
     }
 
-    private void setFullName(String fullName) {
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
-    public Set<Ticket> getTickets() {
-        return tickets;
+    @Column(name = "password", length = 60, nullable = false)
+    public String getPassword() {
+        return password;
     }
 
-    private void setTickets(Set<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-    //endregion
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
-                ", fullName='" + fullName + '\'' +
-                '}';
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public enum Category {
-        DEVELOPER, TESTER, SUPPORTER, CONSUMER
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles")
+    public Set<Role> getRoles() {
+        return roles;
     }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
+
 }
