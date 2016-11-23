@@ -21,10 +21,15 @@ import supporter.repositories.UserRepository;
 @Controller
 public class ProductController {
 
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
+
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ProductRepository productRepository;
+    public ProductController(ProductRepository productRepository, UserRepository userRepository) {
+        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+    }
+
     @GetMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
     @SuppressWarnings("unused")
@@ -100,4 +105,30 @@ public class ProductController {
         this.productRepository.saveAndFlush(product);
         return "redirect:/";
     }
+
+    @GetMapping("product/delete/{productId}")
+    @PreAuthorize("isAuthenticated()")
+    public String delete(Model model, @PathVariable Integer productId) {
+        if (!this.productRepository.exists(productId)){
+            return "redirect:/product/create";
+        }
+
+        Product product = this.productRepository.findOne(productId);
+        model.addAttribute("product", product);
+        model.addAttribute("view", "product/delete");
+        return "base-layout";
+    }
+
+    @PostMapping("product/delete/{productId}")
+    @PreAuthorize("isAuthenticated()")
+    public String deleteProcess(@PathVariable Integer productId){
+        if (!this.productRepository.exists(productId)){
+            return "redirect:/product/create";
+        }
+
+        this.productRepository.delete(productId);
+        return "redirect:/";
+    }
+
+
 }
