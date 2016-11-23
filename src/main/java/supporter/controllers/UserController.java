@@ -27,23 +27,30 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 public class UserController {
-    @Autowired
-    RoleRepository roleRepository;
-    @Autowired
-    UserRepository userRepository;
 
-    @GetMapping("/register")
-    public String register(Model model) {
-        model.addAttribute("view", "user/register");
+    private static final String ROLE_USER_KEY = "ROLE_USER_KEY";
+    private static final String USER_KEY = "user";
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
-        return "base-layout";
+    @Autowired
+    public UserController(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
-    @PostMapping("/register")
+    @GetMapping(Routes.DELIMITER + Routes.REGISTER)
+    public String register(Model model) {
+        model.addAttribute(Routes.VIEW, Routes.USER_REGISTER);
+
+        return Routes.BASE_LAYOUT;
+    }
+
+    @PostMapping(Routes.DELIMITER + Routes.REGISTER)
     public String registerProcess(UserBindingModel userBindingModel){
 
         if(!userBindingModel.getPassword().equals(userBindingModel.getConfirmPassword())){
-            return "redirect:/register";
+            return Routes.REDIRECT_REGISTER;
         }
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -54,23 +61,23 @@ public class UserController {
                 bCryptPasswordEncoder.encode(userBindingModel.getPassword())
         );
 
-        Role userRole = this.roleRepository.findByName("ROLE_USER");
+        Role userRole = this.roleRepository.findByName(ROLE_USER_KEY);
 
         user.addRole(userRole);
 
         this.userRepository.saveAndFlush(user);
 
-        return "redirect:/login";
+        return Routes.REDIRECT_LOGIN;
     }
 
-    @GetMapping("/login")
+    @GetMapping(Routes.DELIMITER + Routes.LOGIN)
     public String login(Model model){
-        model.addAttribute("view", "user/login");
+        model.addAttribute(Routes.VIEW, Routes.USER_LOGIN);
 
-        return "base-layout";
+        return Routes.BASE_LAYOUT;
     }
 
-    @RequestMapping(value="/logout", method = RequestMethod.GET)
+    @RequestMapping(value=Routes.DELIMITER + Routes.LOGOUT, method = RequestMethod.GET)
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -78,10 +85,10 @@ public class UserController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
 
-        return "redirect:/login?logout";
+        return Routes.REDIRECT_HOME;
     }
 
-    @GetMapping("/profile")
+    @GetMapping(Routes.DELIMITER + Routes.PROFILE)
     @PreAuthorize("isAuthenticated()")
     public String profilePage(Model model){
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
@@ -90,9 +97,9 @@ public class UserController {
 
         User user = this.userRepository.findByEmail(principal.getUsername());
 
-        model.addAttribute("user", user);
-        model.addAttribute("view", "user/profile");
+        model.addAttribute(USER_KEY, user);
+        model.addAttribute(Routes.VIEW, Routes.USER_PROFILE);
 
-        return "base-layout";
+        return Routes.BASE_LAYOUT;
     }
 }
