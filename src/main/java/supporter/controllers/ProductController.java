@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import supporter.models.Product;
 import supporter.models.User;
@@ -52,5 +53,15 @@ public class ProductController {
         productRepository.saveAndFlush(product);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/product/{productId}")
+    public String details(@PathVariable int productId,
+                          Model model){
+        Product product = productRepository.findOne(productId);
+        model.addAttribute("product", product);
+        model.addAttribute("view", "product/details");
+
+        return "base-layout";
     }
 }
