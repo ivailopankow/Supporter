@@ -18,7 +18,7 @@
                     <footer>
                         <div class="pull-right">
 
-                            <a class="btn btn-success btn-xs" href="#">Edit</a>
+                            <a class="btn btn-success btn-xs" th:href="@{/product/edit/{id}(id=${product.id})}">Edit</a>
                             <a class="btn btn-danger btn-xs" href="#">Delete</a>
 
                             <a class="btn btn-default btn-xs" th:href="@{/}">back &raquo;</a>

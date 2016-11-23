@@ -58,10 +58,46 @@ public class ProductController {
     @GetMapping("/product/{productId}")
     public String details(@PathVariable int productId,
                           Model model){
+        if (!this.productRepository.exists(productId)){
+            return "redirect:/product/create";
+        }
+
         Product product = productRepository.findOne(productId);
         model.addAttribute("product", product);
         model.addAttribute("view", "product/details");
 
         return "base-layout";
+    }
+
+    @GetMapping("/product/edit/{productId}")
+    @PreAuthorize("isAuthenticated()")
+    public String edit(@PathVariable int productId,
+                       Model model) {
+
+        if (!this.productRepository.exists(productId)){
+            return "redirect:/product/create";
+        }
+
+        Product product = this.productRepository.findOne(productId);
+        model.addAttribute("product", product);
+        model.addAttribute("view", "product/edit");
+        return "base-layout";
+    }
+
+    @PostMapping("/product/edit/{productId}")
+    @PreAuthorize("isAuthenticated()")
+    public String editProcess(@PathVariable int productId,
+                              ProductBindingModel bindingModel) {
+
+        if (!this.productRepository.exists(productId)){
+            return "redirect:/product/create";
+        }
+
+        Product product = this.productRepository.findOne(productId);
+        product.setTitle(bindingModel.getTitle());
+        product.setContent(bindingModel.getContent());
+
+        this.productRepository.saveAndFlush(product);
+        return "redirect:/";
     }
 }
