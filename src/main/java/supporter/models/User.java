@@ -1,8 +1,11 @@
 package supporter.models;
 
 
+import supporter.utils.Const;
+
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -96,4 +99,14 @@ public class User {
         this.roles.add(role);
     }
 
+    @Transient
+    public boolean isAdmin(){
+        return this.getRoles().stream()
+                .anyMatch( role -> role.getName().equals(Const.ROLE_ADMIN_KEY));
+    }
+
+    @Transient
+    public boolean isProducer(Product product) {
+        return Objects.equals(this.getId(), product.getProducer().getId());
+    }
 }

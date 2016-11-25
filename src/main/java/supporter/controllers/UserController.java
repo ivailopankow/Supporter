@@ -19,6 +19,7 @@ import supporter.models.User;
 import supporter.models.binding.UserBindingModel;
 import supporter.repositories.RoleRepository;
 import supporter.repositories.UserRepository;
+import supporter.utils.Const;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -28,16 +29,14 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class UserController {
 
-    private static final String ROLE_USER_KEY = "ROLE_USER_KEY";
     private static final String USER_KEY = "user";
-    private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
 
     @Autowired
-    public UserController(UserRepository userRepository, RoleRepository roleRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-    }
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     @GetMapping(Routes.DELIMITER + Routes.REGISTER)
     public String register(Model model) {
@@ -61,7 +60,7 @@ public class UserController {
                 bCryptPasswordEncoder.encode(userBindingModel.getPassword())
         );
 
-        Role userRole = this.roleRepository.findByName(ROLE_USER_KEY);
+        Role userRole = this.roleRepository.findByName(Const.ROLE_USER_KEY);
 
         user.addRole(userRole);
 

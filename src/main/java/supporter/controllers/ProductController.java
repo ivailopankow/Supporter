@@ -2,6 +2,7 @@ package supporter.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -67,7 +68,13 @@ public class ProductController {
             return "redirect:/product/create";
         }
 
+        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)){
+            UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User entityUser = this.userRepository.findByEmail(principal.getUsername());
+            model.addAttribute("user", entityUser);
+        }
         Product product = productRepository.findOne(productId);
+
         model.addAttribute("product", product);
         model.addAttribute("view", "product/details");
 
