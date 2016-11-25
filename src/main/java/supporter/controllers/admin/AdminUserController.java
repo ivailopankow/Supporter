@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import supporter.controllers.Routes;
+import supporter.models.Product;
 import supporter.models.Role;
 import supporter.models.User;
 import supporter.models.binding.EditUserBindingModel;
+import supporter.repositories.ProductRepository;
 import supporter.repositories.RoleRepository;
 import supporter.repositories.UserRepository;
 
@@ -31,6 +33,9 @@ public class AdminUserController {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    ProductRepository productRepository;
 
     @GetMapping("/")
     public String listUsers(Model model){
@@ -84,6 +89,32 @@ public class AdminUserController {
         user.setRoles(roles);
 
         this.userRepository.saveAndFlush(user);
+        return "redirect:/admin/users/";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Integer id, Model model){
+        if (!this.userRepository.exists(id)){
+            return "redirect:/admin/users/";
+        }
+
+        User user = this.userRepository.findOne(id);
+        model.addAttribute("user", user);
+        model.addAttribute("view", "admin/user/delete");
+
+        return Routes.BASE_LAYOUT;
+    }
+
+    @PostMapping("delete/{id}")
+    public String deleteProcess(@PathVariable Integer id) {
+        if (!this.userRepository.exists(id)){
+            return "redirect:/admin/users/";
+        }
+        User user = this.userRepository.findOne(id);
+        for (Product product : user.getProducts()) {
+            this.productRepository.delete(product.getId());
+        }
+        this.userRepository.delete(id);
         return "redirect:/admin/users/";
     }
 }
