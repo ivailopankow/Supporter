@@ -28,7 +28,7 @@ public class UsersServiceJpaImpl {
         return userRepository.findAll();
     }
 
-    public User findById(Long id) {
+    public User findById(Integer id) {
         return this.userRepository.findOne(id);
     }
 
@@ -41,7 +41,7 @@ public class UsersServiceJpaImpl {
         return this.userRepository.save(user);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         this.userRepository.delete(id);
     }
 

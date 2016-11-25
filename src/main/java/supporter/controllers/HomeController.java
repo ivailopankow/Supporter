@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import supporter.models.Product;
 import supporter.repositories.ProductRepository;
 
@@ -28,6 +29,12 @@ public class HomeController {
         model.addAttribute(Routes.VIEW, Routes.HOME_INDEX);
         List<Product> allProducts = productRepository.findAll();
         model.addAttribute(PRODUCTS, allProducts);
+        return Routes.BASE_LAYOUT;
+    }
+
+    @RequestMapping("/error/403")
+    public String accessDenied(Model model) {
+        model.addAttribute("view", "error/403");
         return Routes.BASE_LAYOUT;
     }
 }

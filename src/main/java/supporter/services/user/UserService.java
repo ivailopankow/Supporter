@@ -10,10 +10,10 @@ import java.util.List;
 public interface UserService {
 
     List<User> findAll();
-    User findById(Long id);
+    User findById(Integer id);
     User create(User user);
     User edit(User user);
-    void deleteById(Long id);
+    void deleteById(Integer id);
     boolean authenticate(String username, String password);
     User login(String username, String password);
     User register(String username, String password, String fullName);

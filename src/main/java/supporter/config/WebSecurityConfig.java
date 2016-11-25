@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import supporter.utils.Const;
 
 /**
  * Created by Ivaylo on 19-Nov-16.
@@ -31,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/admin/**").hasAuthority(Const.ROLE_ADMIN_KEY)
                 .anyRequest().permitAll()
                 .and()
                 .formLogin().loginPage("/login")

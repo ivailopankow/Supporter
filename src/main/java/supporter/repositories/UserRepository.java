@@ -8,7 +8,7 @@ import supporter.models.User;
  * Created by Ivaylo on 12-Nov-16.
  */
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findByEmail(String email);
 }
