@@ -16,15 +16,14 @@ import java.util.List;
 @Controller
 public class HomeController {
 
-    private static final String PRODUCTS = "products";
     @Autowired
     ProductService productService;
 
-    @GetMapping(Routes.DELIMITER)
+    @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute(Routes.VIEW, Routes.HOME_INDEX);
+        model.addAttribute("view", "home/index");
         List<Product> allProducts = productService.findAll();
-        model.addAttribute(PRODUCTS, allProducts);
+        model.addAttribute("products", allProducts);
         return Routes.BASE_LAYOUT;
     }
 

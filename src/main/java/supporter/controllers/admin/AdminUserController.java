@@ -41,7 +41,7 @@ public class AdminUserController {
     public String listUsers(Model model){
         List<User> users = this.userService.findAll();
         model.addAttribute("users", users);
-        model.addAttribute(Routes.VIEW, "admin/user/list");
+        model.addAttribute("view", "admin/user/list");
 
         return Routes.BASE_LAYOUT;
     }

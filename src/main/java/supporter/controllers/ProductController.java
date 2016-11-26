@@ -16,7 +16,6 @@ import supporter.models.binding.ProductBindingModel;
 import supporter.services.product.ProductService;
 import supporter.services.user.UserService;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -72,7 +71,7 @@ public class ProductController {
         model.addAttribute("product", product);
         model.addAttribute("view", "product/details");
 
-        return "base-layout";
+        return Routes.BASE_LAYOUT;
     }
 
     @GetMapping("/products/")
@@ -81,7 +80,7 @@ public class ProductController {
         User loggedUser = this.userService.getCurrentlyLoggedUser();
         Set<Product> userProducts = loggedUser.getProducts();
         model.addAttribute("products", userProducts);
-        model.addAttribute(Routes.VIEW, "product/user-list");
+        model.addAttribute("view", "product/user-list");
 
         return Routes.BASE_LAYOUT;
     }
@@ -98,7 +97,7 @@ public class ProductController {
         Product product = this.productService.findById(productId);
         model.addAttribute("product", product);
         model.addAttribute("view", "product/edit");
-        return "base-layout";
+        return Routes.BASE_LAYOUT;
     }
 
     @PostMapping("/product/edit/{productId}")
@@ -128,7 +127,7 @@ public class ProductController {
         Product product = this.productService.findById(productId);
         model.addAttribute("product", product);
         model.addAttribute("view", "product/delete");
-        return "base-layout";
+        return Routes.BASE_LAYOUT;
     }
 
     @PostMapping("product/delete/{productId}")

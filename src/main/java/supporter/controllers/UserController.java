@@ -39,18 +39,18 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping(Routes.DELIMITER + Routes.REGISTER)
+    @GetMapping("/register")
     public String register(Model model) {
-        model.addAttribute(Routes.VIEW, Routes.USER_REGISTER);
+        model.addAttribute("view", "user/register");
 
         return Routes.BASE_LAYOUT;
     }
 
-    @PostMapping(Routes.DELIMITER + Routes.REGISTER)
+    @PostMapping("/register")
     public String registerProcess(UserBindingModel userBindingModel){
 
         if(!userBindingModel.getPassword().equals(userBindingModel.getConfirmPassword())){
-            return Routes.REDIRECT_REGISTER;
+            return "redirect:/register";
         }
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -67,17 +67,17 @@ public class UserController {
 
         this.userService.create(user);
 
-        return Routes.REDIRECT_LOGIN;
+        return "redirect:/login";
     }
 
-    @GetMapping(Routes.DELIMITER + Routes.LOGIN)
+    @GetMapping("/login")
     public String login(Model model){
-        model.addAttribute(Routes.VIEW, Routes.USER_LOGIN);
+        model.addAttribute("view", "user/login");
 
         return Routes.BASE_LAYOUT;
     }
 
-    @RequestMapping(value=Routes.DELIMITER + Routes.LOGOUT, method = RequestMethod.GET)
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -85,15 +85,15 @@ public class UserController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
 
-        return Routes.REDIRECT_HOME;
+        return "redirect:/";
     }
 
-    @GetMapping(Routes.DELIMITER + Routes.PROFILE)
+    @GetMapping("/profile")
     @PreAuthorize("isAuthenticated()")
     public String profilePage(Model model){
         User user = this.userService.getCurrentlyLoggedUser();
         model.addAttribute(USER_KEY, user);
-        model.addAttribute(Routes.VIEW, Routes.USER_PROFILE);
+        model.addAttribute("view", "user/profile");
 
         return Routes.BASE_LAYOUT;
     }
