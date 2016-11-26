@@ -9,7 +9,7 @@
 //import supporter.forms.LoginForm;
 //import supporter.forms.RegisterForm;
 //import supporter.models.User;
-//import supporter.services.NotificationService;
+//import supporter.services.notification.NotificationService;
 //import supporter.services.user.UserService;
 //
 //import javax.validation.Valid;

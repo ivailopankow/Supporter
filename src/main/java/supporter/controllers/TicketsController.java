@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 import supporter.models.Ticket;
-import supporter.services.NotificationService;
+import supporter.services.notification.NotificationService;
 import supporter.services.ticket.TicketService;
 
 /**

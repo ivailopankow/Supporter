@@ -11,6 +11,7 @@ public interface UserService {
 
     List<User> findAll();
     User findById(Integer id);
+    User findByEmail(String username);
     User create(User user);
     User edit(User user);
     void deleteById(Integer id);
@@ -19,4 +20,6 @@ public interface UserService {
     User register(String username, String password, String fullName);
     void setPassword(String username, String newPassword);
     List<String> getRoles();
+
+    boolean exists(Integer id);
 }

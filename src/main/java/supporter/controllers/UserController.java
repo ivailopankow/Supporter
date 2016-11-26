@@ -19,6 +19,8 @@ import supporter.models.User;
 import supporter.models.binding.UserBindingModel;
 import supporter.repositories.RoleRepository;
 import supporter.repositories.UserRepository;
+import supporter.services.role.RoleService;
+import supporter.services.user.UserService;
 import supporter.utils.Const;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,11 +34,10 @@ public class UserController {
     private static final String USER_KEY = "user";
 
     @Autowired
-    private RoleRepository roleRepository;
+    private RoleService roleService;
 
     @Autowired
-    private UserRepository userRepository;
-
+    UserService userService;
 
     @GetMapping(Routes.DELIMITER + Routes.REGISTER)
     public String register(Model model) {
@@ -60,11 +61,11 @@ public class UserController {
                 bCryptPasswordEncoder.encode(userBindingModel.getPassword())
         );
 
-        Role userRole = this.roleRepository.findByName(Const.ROLE_USER_KEY);
+        Role userRole = this.roleService.findByName(Const.ROLE_USER_KEY);
 
         user.addRole(userRole);
 
-        this.userRepository.saveAndFlush(user);
+        this.userService.create(user);
 
         return Routes.REDIRECT_LOGIN;
     }
@@ -94,7 +95,7 @@ public class UserController {
                 .getAuthentication()
                 .getPrincipal();
 
-        User user = this.userRepository.findByEmail(principal.getUsername());
+        User user = this.userService.findByEmail(principal.getUsername());
 
         model.addAttribute(USER_KEY, user);
         model.addAttribute(Routes.VIEW, Routes.USER_PROFILE);

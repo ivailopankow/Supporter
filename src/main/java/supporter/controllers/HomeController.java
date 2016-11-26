@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import supporter.models.Product;
-import supporter.repositories.ProductRepository;
+import supporter.services.product.ProductService;
 
 import java.util.List;
 
@@ -17,17 +17,13 @@ import java.util.List;
 public class HomeController {
 
     private static final String PRODUCTS = "products";
-    private final ProductRepository productRepository;
-
     @Autowired
-    public HomeController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
+    ProductService productService;
 
     @GetMapping(Routes.DELIMITER)
     public String index(Model model) {
         model.addAttribute(Routes.VIEW, Routes.HOME_INDEX);
-        List<Product> allProducts = productRepository.findAll();
+        List<Product> allProducts = productService.findAll();
         model.addAttribute(PRODUCTS, allProducts);
         return Routes.BASE_LAYOUT;
     }

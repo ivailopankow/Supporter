@@ -1,4 +1,4 @@
-package supporter.services;
+package supporter.services.notification;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

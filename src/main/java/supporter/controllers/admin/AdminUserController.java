@@ -13,9 +13,9 @@ import supporter.models.Product;
 import supporter.models.Role;
 import supporter.models.User;
 import supporter.models.binding.EditUserBindingModel;
-import supporter.repositories.ProductRepository;
-import supporter.repositories.RoleRepository;
-import supporter.repositories.UserRepository;
+import supporter.services.product.ProductService;
+import supporter.services.role.RoleService;
+import supporter.services.user.UserService;
 
 import java.util.HashSet;
 import java.util.List;
@@ -29,17 +29,17 @@ import java.util.Set;
 public class AdminUserController {
 
     @Autowired
-    UserRepository userRepository;
+    UserService userService;
 
     @Autowired
-    RoleRepository roleRepository;
+    ProductService productService;
 
     @Autowired
-    ProductRepository productRepository;
+    RoleService roleService;
 
     @GetMapping("/")
     public String listUsers(Model model){
-        List<User> users = this.userRepository.findAll();
+        List<User> users = this.userService.findAll();
         model.addAttribute("users", users);
         model.addAttribute(Routes.VIEW, "admin/user/list");
 
@@ -48,12 +48,12 @@ public class AdminUserController {
 
     @GetMapping("/edit/{id}")
     public String editUser(Model model, @PathVariable Integer id){
-        if (!this.userRepository.exists(id)){
+        if (!this.userService.exists(id)){
             return "redirect:/admin/users/";
         }
 
-        User user = this.userRepository.findOne(id);
-        List<Role> roles = this.roleRepository.findAll();
+        User user = this.userService.findById(id);
+        List<Role> roles = this.roleService.findAll();
         model.addAttribute("user", user);
         model.addAttribute("roles", roles);
         model.addAttribute("view", "admin/user/edit");
@@ -63,10 +63,10 @@ public class AdminUserController {
 
     @PostMapping("/edit/{id}")
     public String editUserProcess(@PathVariable Integer id, EditUserBindingModel userBindingModel){
-        if (!this.userRepository.exists(id)){
+        if (!this.userService.exists(id)){
             return "redirect:/admin/users/";
         }
-        User user = this.userRepository.findOne(id);
+        User user = this.userService.findById(id);
 
         user.setEmail(userBindingModel.getEmail());
         user.setFullName(userBindingModel.getFullName());
@@ -83,22 +83,22 @@ public class AdminUserController {
         //get binding roles
         Set<Role> roles = new HashSet<>();
         for (Integer roleId : userBindingModel.getRoles()) {
-            Role editedRole = this.roleRepository.findOne(roleId);
+            Role editedRole = this.roleService.findById(roleId);
             roles.add(editedRole);
         }
         user.setRoles(roles);
 
-        this.userRepository.saveAndFlush(user);
+        this.userService.edit(user);
         return "redirect:/admin/users/";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, Model model){
-        if (!this.userRepository.exists(id)){
+        if (!this.userService.exists(id)){
             return "redirect:/admin/users/";
         }
 
-        User user = this.userRepository.findOne(id);
+        User user = this.userService.findById(id);
         model.addAttribute("user", user);
         model.addAttribute("view", "admin/user/delete");
 
@@ -107,14 +107,14 @@ public class AdminUserController {
 
     @PostMapping("delete/{id}")
     public String deleteProcess(@PathVariable Integer id) {
-        if (!this.userRepository.exists(id)){
+        if (!this.userService.exists(id)){
             return "redirect:/admin/users/";
         }
-        User user = this.userRepository.findOne(id);
+        User user = this.userService.findById(id);
         for (Product product : user.getProducts()) {
-            this.productRepository.delete(product.getId());
+            this.productService.deleteById(product.getId());
         }
-        this.userRepository.delete(id);
+        this.userService.deleteById(id);
         return "redirect:/admin/users/";
     }
 }

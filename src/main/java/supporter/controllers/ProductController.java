@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import supporter.models.Product;
 import supporter.models.User;
 import supporter.models.binding.ProductBindingModel;
-import supporter.repositories.ProductRepository;
-import supporter.repositories.UserRepository;
+import supporter.services.product.ProductService;
+import supporter.services.user.UserService;
 
 /**
  * Created by Ivaylo on 22-Nov-16.
@@ -22,14 +22,10 @@ import supporter.repositories.UserRepository;
 @Controller
 public class ProductController {
 
-    private final UserRepository userRepository;
-    private final ProductRepository productRepository;
-
     @Autowired
-    public ProductController(ProductRepository productRepository, UserRepository userRepository) {
-        this.productRepository = productRepository;
-        this.userRepository = userRepository;
-    }
+    UserService userService;
+    @Autowired
+    ProductService productService;
 
     @GetMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
@@ -48,7 +44,7 @@ public class ProductController {
                                         .getAuthentication()
                                         .getPrincipal();
 
-        User userEntity = userRepository.findByEmail(user.getUsername());
+        User userEntity = userService.findByEmail(user.getUsername());
 
         Product product = new Product(
                 productBindingModel.getTitle(),
@@ -56,7 +52,7 @@ public class ProductController {
                 userEntity
         );
 
-        productRepository.saveAndFlush(product);
+        productService.create(product);
 
         return "redirect:/";
     }
@@ -64,16 +60,16 @@ public class ProductController {
     @GetMapping("/product/{productId}")
     public String details(@PathVariable int productId,
                           Model model){
-        if (!this.productRepository.exists(productId)){
+        if (!this.productService.exists(productId)){
             return "redirect:/product/create";
         }
 
         if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)){
             UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            User entityUser = this.userRepository.findByEmail(principal.getUsername());
+            User entityUser = this.userService.findByEmail(principal.getUsername());
             model.addAttribute("user", entityUser);
         }
-        Product product = productRepository.findOne(productId);
+        Product product = productService.findById(productId);
 
         model.addAttribute("product", product);
         model.addAttribute("view", "product/details");
@@ -86,11 +82,11 @@ public class ProductController {
     public String edit(@PathVariable int productId,
                        Model model) {
 
-        if (!this.productRepository.exists(productId)){
+        if (!this.productService.exists(productId)){
             return "redirect:/product/create";
         }
 
-        Product product = this.productRepository.findOne(productId);
+        Product product = this.productService.findById(productId);
         model.addAttribute("product", product);
         model.addAttribute("view", "product/edit");
         return "base-layout";
@@ -101,26 +97,26 @@ public class ProductController {
     public String editProcess(@PathVariable int productId,
                               ProductBindingModel bindingModel) {
 
-        if (!this.productRepository.exists(productId)){
+        if (!this.productService.exists(productId)){
             return "redirect:/product/create";
         }
 
-        Product product = this.productRepository.findOne(productId);
+        Product product = this.productService.findById(productId);
         product.setTitle(bindingModel.getTitle());
         product.setContent(bindingModel.getContent());
 
-        this.productRepository.saveAndFlush(product);
+        this.productService.edit(product);
         return "redirect:/";
     }
 
     @GetMapping("product/delete/{productId}")
     @PreAuthorize("isAuthenticated()")
     public String delete(Model model, @PathVariable Integer productId) {
-        if (!this.productRepository.exists(productId)){
+        if (!this.productService.exists(productId)){
             return "redirect:/product/create";
         }
 
-        Product product = this.productRepository.findOne(productId);
+        Product product = this.productService.findById(productId);
         model.addAttribute("product", product);
         model.addAttribute("view", "product/delete");
         return "base-layout";
@@ -129,11 +125,11 @@ public class ProductController {
     @PostMapping("product/delete/{productId}")
     @PreAuthorize("isAuthenticated()")
     public String deleteProcess(@PathVariable Integer productId){
-        if (!this.productRepository.exists(productId)){
+        if (!this.productService.exists(productId)){
             return "redirect:/product/create";
         }
 
-        this.productRepository.delete(productId);
+        this.productService.deleteById(productId);
         return "redirect:/";
     }
 

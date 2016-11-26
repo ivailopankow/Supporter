@@ -1,4 +1,4 @@
-package supporter.services;
+package supporter.services.notification;
 
 /**
  * Created by Ivaylo on 12-Nov-16.
