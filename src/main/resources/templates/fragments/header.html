@@ -11,6 +11,18 @@
                 </button>
             </div>
             <div class="navbar-collapse collapse">
+                <ul sec:authorize="isAuthenticated()" class="nav navbar-nav navbar-left">
+                    <li>
+                        <a th:href="@{/product/create}">
+                            Create Product
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/products/}">
+                            My Products
+                        </a>
+                    </li>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown" sec:authorize-url="/admin/**">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Admin<span class="caret"></span></a>
@@ -20,11 +32,6 @@
                         </ul>
                     </li>
 
-                    <li sec:authorize="isAuthenticated()">
-                        <a th:href="@{/product/create}">
-                            Create Product
-                        </a>
-                    </li>
                     <li sec:authorize="isAuthenticated()">
                         <a th:href="@{/profile}">
                             My Profile

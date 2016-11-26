@@ -1,5 +1,6 @@
 package supporter.services.user;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import supporter.models.User;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface UserService {
     List<String> getRoles();
 
     boolean exists(Integer id);
+
+    User getCurrentlyLoggedUser();
 }

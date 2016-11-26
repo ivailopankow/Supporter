@@ -91,12 +91,7 @@ public class UserController {
     @GetMapping(Routes.DELIMITER + Routes.PROFILE)
     @PreAuthorize("isAuthenticated()")
     public String profilePage(Model model){
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getPrincipal();
-
-        User user = this.userService.findByEmail(principal.getUsername());
-
+        User user = this.userService.getCurrentlyLoggedUser();
         model.addAttribute(USER_KEY, user);
         model.addAttribute(Routes.VIEW, Routes.USER_PROFILE);
 

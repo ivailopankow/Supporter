@@ -2,6 +2,8 @@ package supporter.services.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import supporter.models.User;
 import supporter.repositories.UserRepository;
@@ -77,5 +79,14 @@ public class UsersServiceJpaImpl implements UserService{
     @Override
     public boolean exists(Integer id) {
         return this.userRepository.exists(id);
+    }
+
+    @Override
+    public User getCurrentlyLoggedUser() {
+        UserDetails principal= (UserDetails) SecurityContextHolder
+                                        .getContext()
+                                        .getAuthentication()
+                                        .getPrincipal();
+        return this.userRepository.findByEmail(principal.getUsername());
     }
 }

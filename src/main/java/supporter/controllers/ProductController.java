@@ -16,6 +16,9 @@ import supporter.models.binding.ProductBindingModel;
 import supporter.services.product.ProductService;
 import supporter.services.user.UserService;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * Created by Ivaylo on 22-Nov-16.
  */
@@ -30,7 +33,7 @@ public class ProductController {
     @GetMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
     @SuppressWarnings("unused")
-    public String createProduct(Model model) {
+    public String create(Model model) {
         model.addAttribute("view", "product/create");
         return "base-layout";
     }
@@ -38,13 +41,8 @@ public class ProductController {
     @PostMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
     @SuppressWarnings("unused")
-    public String createProductProcess(ProductBindingModel productBindingModel) {
-        UserDetails user = (UserDetails) SecurityContextHolder
-                                        .getContext()
-                                        .getAuthentication()
-                                        .getPrincipal();
-
-        User userEntity = userService.findByEmail(user.getUsername());
+    public String createProcess(ProductBindingModel productBindingModel) {
+        User userEntity = this.userService.getCurrentlyLoggedUser();
 
         Product product = new Product(
                 productBindingModel.getTitle(),
@@ -75,6 +73,17 @@ public class ProductController {
         model.addAttribute("view", "product/details");
 
         return "base-layout";
+    }
+
+    @GetMapping("/products/")
+    @PreAuthorize("isAuthenticated()")
+    public String listUserProducts(Model model) {
+        User loggedUser = this.userService.getCurrentlyLoggedUser();
+        Set<Product> userProducts = loggedUser.getProducts();
+        model.addAttribute("products", userProducts);
+        model.addAttribute(Routes.VIEW, "product/user-list");
+
+        return Routes.BASE_LAYOUT;
     }
 
     @GetMapping("/product/edit/{productId}")
