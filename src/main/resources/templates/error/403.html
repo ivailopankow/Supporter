@@ -1,7 +1,12 @@
 <main>
-    <div class="container body-content span=8 offset=2">
-        <div class="well">
-           <h1>Access Denied</h1>
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-dismissible alert-danger">
+                    <h2>Access Denied!</h2>
+                    <h4>You need to <a th:href="@{/logout}" class="alert-link">login</a> with different user.</h4>
+                </div>
+            </div>
         </div>
     </div>
 </main>

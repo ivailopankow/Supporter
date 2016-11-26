@@ -28,6 +28,10 @@ public class User {
 
     private Set<Product> products;
 
+    private Set<Product> supportedProducts;
+
+    private Set<Ticket> tickets;
+
     public User(String email, String fullName, String password) {
         this.email = email;
         this.password = password;
@@ -35,6 +39,8 @@ public class User {
 
         this.roles = new HashSet<>();
         this.products = new HashSet<>();
+        this.supportedProducts = new HashSet<>();
+        this.tickets = new HashSet<>();
     }
 
     public User() {    }
@@ -93,6 +99,25 @@ public class User {
 
     public void setProducts(Set<Product> products) {
         this.products = products;
+    }
+
+    @OneToMany(mappedBy = "author")
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "subscriptions")
+    public Set<Product> getSupportedProducts() {
+        return supportedProducts;
+    }
+
+    public void setSupportedProducts(Set<Product> supportedProducts) {
+        this.supportedProducts = supportedProducts;
     }
 
     public void addRole(Role role) {

@@ -1,6 +1,8 @@
 package supporter.models;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Ivaylo on 22-Nov-16.
@@ -12,6 +14,8 @@ public class Product {
     private String title;
     private String content;
     private User producer;
+    private Set<User> supportedUsers;
+    private Set<Ticket> tickets;
 
     public Product() {
     }
@@ -20,6 +24,8 @@ public class Product {
         this.title = title;
         this.content = content;
         this.producer = producer;
+        this.tickets = new HashSet<>();
+        this.supportedUsers = new HashSet<>();
     }
 
     @Id
@@ -58,6 +64,24 @@ public class Product {
 
     public void setProducer(User producer) {
         this.producer = producer;
+    }
+
+    @OneToMany(mappedBy = "product")
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    @ManyToMany(mappedBy = "supportedProducts")
+    public Set<User> getSupportedUsers() {
+        return supportedUsers;
+    }
+
+    public void setSupportedUsers(Set<User> supportedUsers) {
+        this.supportedUsers = supportedUsers;
     }
 
     @Transient

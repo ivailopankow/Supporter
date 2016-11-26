@@ -11,46 +11,34 @@ import java.util.Date;
 @Table(name = "tickets")
 public class Ticket {
 
-    //region Fields
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false, length = 300)
+    private Integer id;
     private String title;
-
-    @Lob @Column(nullable = false)
     private String body;
-
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private User author;
-
-    @Column(nullable = false)
+    private Product product;
     private Date date = new Date();
-    //endregion
 
-    //region Constructors
-    public Ticket(Long id, String title, String body, User author) {
-        this.setId(id);
+    public Ticket(String title, String body, User author, Product product) {
         this.setTitle(title);
         this.setBody(body);
         this.setAuthor(author);
+        this.setProduct(product);
     }
 
     public Ticket() {
     }
-    //endregion
 
-    // TODO: 12-Nov-16 Add validation constraints for fields
-    //region Properties
-    public Long getId() {
-        return id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Integer getId() {
+        return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
+    @Column(nullable = false)
     public String getTitle() {
         return title;
     }
@@ -59,6 +47,7 @@ public class Ticket {
         this.title = title;
     }
 
+    @Column(columnDefinition = "text", nullable = false)
     public String getBody() {
         return body;
     }
@@ -67,6 +56,8 @@ public class Ticket {
         this.body = body;
     }
 
+    @ManyToOne()
+    @JoinColumn(nullable = false, name = "authorId")
     public User getAuthor() {
         return author;
     }
@@ -75,6 +66,7 @@ public class Ticket {
         this.author = author;
     }
 
+
     public Date getDate() {
         return date;
     }
@@ -82,7 +74,16 @@ public class Ticket {
     private void setDate(Date date) {
         this.date = date;
     }
-    //endregion
+
+    @ManyToOne()
+    @JoinColumn(nullable = false, name = "productId")
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     @Override
     public String toString() {
