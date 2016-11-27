@@ -21,15 +21,13 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("view", "home/index");
         List<Product> allProducts = productService.findAll();
         model.addAttribute("products", allProducts);
-        return Routes.BASE_LAYOUT;
+        return "home/index";
     }
 
     @RequestMapping("/error/403")
-    public String accessDenied(Model model) {
-        model.addAttribute("view", "error/403");
-        return Routes.BASE_LAYOUT;
+    public String accessDenied() {
+        return "error/403";
     }
 }

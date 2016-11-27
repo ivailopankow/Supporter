@@ -40,8 +40,7 @@ public class SubscriptionController {
         }
 
         model.addAttribute("product", product);
-        model.addAttribute("view", "product/subscribe");
-        return Routes.BASE_LAYOUT;
+        return "product/subscribe";
     }
 
     @PostMapping("/product/subscribe/{productId}")

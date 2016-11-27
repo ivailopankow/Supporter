@@ -32,9 +32,8 @@ public class ProductController {
     @GetMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
     @SuppressWarnings("unused")
-    public String create(Model model) {
-        model.addAttribute("view", "product/create");
-        return "base-layout";
+    public String create() {
+        return "product/create";
     }
 
     @PostMapping("/product/create")
@@ -69,9 +68,8 @@ public class ProductController {
         Product product = productService.findById(productId);
 
         model.addAttribute("product", product);
-        model.addAttribute("view", "product/details");
 
-        return Routes.BASE_LAYOUT;
+        return "product/details";
     }
 
     @GetMapping("/products/")
@@ -80,9 +78,8 @@ public class ProductController {
         User loggedUser = this.userService.getCurrentLoggedUser();
         Set<Product> userProducts = loggedUser.getProducts();
         model.addAttribute("products", userProducts);
-        model.addAttribute("view", "product/user-list");
 
-        return Routes.BASE_LAYOUT;
+        return "product/user-list";
     }
 
     @GetMapping("/product/edit/{productId}")
@@ -96,8 +93,7 @@ public class ProductController {
 
         Product product = this.productService.findById(productId);
         model.addAttribute("product", product);
-        model.addAttribute("view", "product/edit");
-        return Routes.BASE_LAYOUT;
+        return "product/edit";
     }
 
     @PostMapping("/product/edit/{productId}")
@@ -126,8 +122,7 @@ public class ProductController {
 
         Product product = this.productService.findById(productId);
         model.addAttribute("product", product);
-        model.addAttribute("view", "product/delete");
-        return Routes.BASE_LAYOUT;
+        return "product/delete";
     }
 
     @PostMapping("product/delete/{productId}")

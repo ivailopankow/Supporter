@@ -43,7 +43,7 @@ public class AdminUserController {
         model.addAttribute("users", users);
         model.addAttribute("view", "admin/user/list");
 
-        return Routes.BASE_LAYOUT;
+        return "admin/user/list";
     }
 
     @GetMapping("/edit/{id}")
@@ -56,9 +56,8 @@ public class AdminUserController {
         List<Role> roles = this.roleService.findAll();
         model.addAttribute("user", user);
         model.addAttribute("roles", roles);
-        model.addAttribute("view", "admin/user/edit");
 
-        return Routes.BASE_LAYOUT;
+        return "admin/user/edit";
     }
 
     @PostMapping("/edit/{id}")
@@ -100,9 +99,8 @@ public class AdminUserController {
 
         User user = this.userService.findById(id);
         model.addAttribute("user", user);
-        model.addAttribute("view", "admin/user/delete");
 
-        return Routes.BASE_LAYOUT;
+        return "admin/user/delete";
     }
 
     @PostMapping("delete/{id}")

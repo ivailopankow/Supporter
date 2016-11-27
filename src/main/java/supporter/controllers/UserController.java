@@ -37,10 +37,8 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/register")
-    public String register(Model model) {
-        model.addAttribute("view", "user/register");
-
-        return Routes.BASE_LAYOUT;
+    public String register() {
+        return "user/register";
     }
 
     @PostMapping("/register")
@@ -68,10 +66,8 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login(Model model){
-        model.addAttribute("view", "user/login");
-
-        return Routes.BASE_LAYOUT;
+    public String login(){
+        return "user/login";
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
@@ -90,8 +86,6 @@ public class UserController {
     public String profilePage(Model model){
         User user = this.userService.getCurrentLoggedUser();
         model.addAttribute(USER_KEY, user);
-        model.addAttribute("view", "user/profile");
-
-        return Routes.BASE_LAYOUT;
+        return "user/profile";
     }
 }
