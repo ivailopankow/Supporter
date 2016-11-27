@@ -11,10 +11,10 @@ import java.util.List;
  * Created by Ivaylo on 26-Nov-16.
  */
 @Service
-public class ProdutServiceJpaImpl implements ProductService {
+public class ProductServiceJpaImpl implements ProductService {
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Override
     public List<Product> findAll() {
