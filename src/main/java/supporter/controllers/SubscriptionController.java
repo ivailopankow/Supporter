@@ -7,16 +7,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import supporter.models.Product;
 import supporter.models.User;
 import supporter.services.product.ProductService;
 import supporter.services.user.UserService;
+
+import java.util.Set;
 
 /**
  * Created by Ivaylo on 26-Nov-16.
  */
 @Controller
 @PreAuthorize("isAuthenticated()")
+@RequestMapping("product/subscribe")
 public class SubscriptionController {
 
     @Autowired
@@ -25,7 +29,7 @@ public class SubscriptionController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/product/subscribe/{productId}")
+    @GetMapping("/{productId}")
     public String subscribe(@PathVariable Integer productId, Model model){
         if (!this.productService.exists(productId)) {
             return "redirect:/";
@@ -39,10 +43,10 @@ public class SubscriptionController {
         }
 
         model.addAttribute("product", product);
-        return "product/subscribe";
+        return "product/subscription/subscribe";
     }
 
-    @PostMapping("/product/subscribe/{productId}")
+    @PostMapping("/{productId}")
     public String subscribeProcess(@PathVariable Integer productId) {
         if (!this.productService.exists(productId)) {
             return "redirect:/";
@@ -57,6 +61,14 @@ public class SubscriptionController {
         this.userService.edit(user);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/list")
+    public String showAllSubsribedProducts(Model model){
+        User user = this.userService.getCurrentLoggedUser();
+        Set<Product> subscribedProducts = user.getSupportedProducts();
+        model.addAttribute("subscribedProducts", subscribedProducts);
+        return "product/subscription/list";
     }
 
 }

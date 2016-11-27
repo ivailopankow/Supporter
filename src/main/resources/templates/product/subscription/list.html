@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head th:include="fragments/head" th:with="pageTitle='Subsribed Products'"></head>
+
+<body>
+
+<header th:include="fragments/header"></header>
+
+<main>
+    <div class="container body-content">
+        <div class="well">
+            <h2>Subscribed Products</h2>
+            <div class="row">
+                <table class="table table-striped table-hover ">
+                    <thead>
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Author</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <th:block th:each="product : ${subscribedProducts}">
+                        <tr>
+                            <td th:text="${product.title}"></td>
+                            <td th:text="${product.producer.fullName}"></td>
+                            <td>
+                                <a th:href="@{/product/subscribe/view/{id}(id=${product.id})}">View</a>
+                            </td>
+                        </tr>
+                    </th:block>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:include="fragments/footer"></footer>
+
+<span th:include="fragments/scripts-bundle"></span>
+
+</body>
+</html>
+

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import supporter.models.Product;
 import supporter.models.Role;
 import supporter.models.User;
 import supporter.models.binding.UserBindingModel;
@@ -21,6 +22,7 @@ import supporter.services.user.UserService;
 import supporter.utils.Const;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Set;
 
 /**
  * Created by Ivaylo on 22-Nov-16.
@@ -87,5 +89,15 @@ public class UserController {
         User user = this.userService.getCurrentLoggedUser();
         model.addAttribute(USER_KEY, user);
         return "user/profile";
+    }
+
+    @GetMapping("/products/")
+    @PreAuthorize("isAuthenticated()")
+    public String listProducerProducts(Model model) {
+        User loggedUser = this.userService.getCurrentLoggedUser();
+        Set<Product> userProducts = loggedUser.getProducts();
+        model.addAttribute("products", userProducts);
+
+        return "product/user-list";
     }
 }

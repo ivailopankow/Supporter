@@ -72,16 +72,6 @@ public class ProductController {
         return "product/details";
     }
 
-    @GetMapping("/products/")
-    @PreAuthorize("isAuthenticated()")
-    public String listUserProducts(Model model) {
-        User loggedUser = this.userService.getCurrentLoggedUser();
-        Set<Product> userProducts = loggedUser.getProducts();
-        model.addAttribute("products", userProducts);
-
-        return "product/user-list";
-    }
-
     @GetMapping("/product/edit/{productId}")
     @PreAuthorize("isAuthenticated()")
     public String edit(@PathVariable int productId,
@@ -135,6 +125,4 @@ public class ProductController {
         this.productService.deleteById(productId);
         return "redirect:/";
     }
-
-
 }
