@@ -82,7 +82,7 @@ public class UsersServiceJpaImpl implements UserService{
     }
 
     @Override
-    public User getCurrentlyLoggedUser() {
+    public User getCurrentLoggedUser() {
         UserDetails principal= (UserDetails) SecurityContextHolder
                                         .getContext()
                                         .getAuthentication()

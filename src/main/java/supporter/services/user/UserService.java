@@ -24,5 +24,5 @@ public interface UserService {
 
     boolean exists(Integer id);
 
-    User getCurrentlyLoggedUser();
+    User getCurrentLoggedUser();
 }

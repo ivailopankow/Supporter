@@ -41,7 +41,7 @@ public class ProductController {
     @PreAuthorize("isAuthenticated()")
     @SuppressWarnings("unused")
     public String createProcess(ProductBindingModel productBindingModel) {
-        User userEntity = this.userService.getCurrentlyLoggedUser();
+        User userEntity = this.userService.getCurrentLoggedUser();
 
         Product product = new Product(
                 productBindingModel.getTitle(),
@@ -77,7 +77,7 @@ public class ProductController {
     @GetMapping("/products/")
     @PreAuthorize("isAuthenticated()")
     public String listUserProducts(Model model) {
-        User loggedUser = this.userService.getCurrentlyLoggedUser();
+        User loggedUser = this.userService.getCurrentLoggedUser();
         Set<Product> userProducts = loggedUser.getProducts();
         model.addAttribute("products", userProducts);
         model.addAttribute("view", "product/user-list");

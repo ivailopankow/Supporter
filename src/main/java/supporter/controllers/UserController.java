@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import supporter.models.Role;
 import supporter.models.User;
 import supporter.models.binding.UserBindingModel;
-import supporter.repositories.RoleRepository;
-import supporter.repositories.UserRepository;
 import supporter.services.role.RoleService;
 import supporter.services.user.UserService;
 import supporter.utils.Const;
@@ -91,7 +88,7 @@ public class UserController {
     @GetMapping("/profile")
     @PreAuthorize("isAuthenticated()")
     public String profilePage(Model model){
-        User user = this.userService.getCurrentlyLoggedUser();
+        User user = this.userService.getCurrentLoggedUser();
         model.addAttribute(USER_KEY, user);
         model.addAttribute("view", "user/profile");
 
