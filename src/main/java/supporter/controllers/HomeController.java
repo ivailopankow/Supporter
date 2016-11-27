@@ -17,7 +17,7 @@ import java.util.List;
 public class HomeController {
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @GetMapping("/")
     public String index(Model model) {

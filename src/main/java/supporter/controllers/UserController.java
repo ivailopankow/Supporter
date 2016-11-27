@@ -34,7 +34,7 @@ public class UserController {
     private RoleService roleService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @GetMapping("/register")
     public String register() {

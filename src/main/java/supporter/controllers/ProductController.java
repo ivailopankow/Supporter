@@ -25,9 +25,9 @@ import java.util.Set;
 public class ProductController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @GetMapping("/product/create")
     @PreAuthorize("isAuthenticated()")

@@ -20,10 +20,10 @@ import supporter.services.user.UserService;
 public class SubscriptionController {
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @GetMapping("/product/subscribe/{productId}")
     public String subscribe(@PathVariable Integer productId, Model model){
@@ -35,8 +35,7 @@ public class SubscriptionController {
         User currentUser = this.userService.getCurrentLoggedUser();
 
         if (product.getProducer().getId().equals(currentUser.getId())) {
-            model.addAttribute("view", "error/403");
-            return Routes.BASE_LAYOUT;
+            return "error/403";
         }
 
         model.addAttribute("product", product);
