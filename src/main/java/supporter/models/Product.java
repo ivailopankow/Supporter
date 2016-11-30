@@ -12,6 +12,7 @@ public class Product {
     private String title;
     private String content;
     private User producer;
+    private Category category;
 
     public Product() {
     }
@@ -58,6 +59,16 @@ public class Product {
 
     public void setProducer(User producer) {
         this.producer = producer;
+    }
+
+    @ManyToOne()
+    @JoinColumn(nullable = false, name = "categoryId")
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Transient
