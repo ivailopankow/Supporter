@@ -56,15 +56,13 @@ public class SubscriptionController {
         Product product = this.productService.findById(productId);
 
         user.getSupportedProducts().add(product);
-        product.getSupportedUsers().add(user);
-        this.productService.edit(product);
         this.userService.edit(user);
 
         return "redirect:/";
     }
 
     @GetMapping("/list")
-    public String showAllSubsribedProducts(Model model){
+    public String showAllSubscribedProducts(Model model){
         User user = this.userService.getCurrentLoggedUser();
         Set<Product> subscribedProducts = user.getSupportedProducts();
         model.addAttribute("subscribedProducts", subscribedProducts);
