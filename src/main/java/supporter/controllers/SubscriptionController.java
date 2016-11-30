@@ -20,7 +20,7 @@ import java.util.Set;
  */
 @Controller
 @PreAuthorize("isAuthenticated()")
-@RequestMapping("product/subscribe")
+@RequestMapping("products/subscribed")
 public class SubscriptionController {
 
     @Autowired

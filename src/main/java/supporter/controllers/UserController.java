@@ -91,7 +91,7 @@ public class UserController {
         return "user/profile";
     }
 
-    @GetMapping("/products/")
+    @GetMapping("/products/supporting/list/")
     @PreAuthorize("isAuthenticated()")
     public String listProducerProducts(Model model) {
         User loggedUser = this.userService.getCurrentLoggedUser();
