@@ -6,8 +6,10 @@ import org.springframework.util.StringUtils;
 import supporter.exceptions.ErrorMessages;
 import supporter.exceptions.category.CategoryCreationException;
 import supporter.models.Category;
+import supporter.models.Product;
 import supporter.models.binding.CategoryBindingModel;
 import supporter.repositories.CategoryRepository;
+import supporter.repositories.ProductRepository;
 
 import java.util.Comparator;
 import java.util.List;
@@ -21,6 +23,8 @@ public class CategoryServiceJpaImpl implements CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     @Override
     public List<Category> findAll(boolean sorted) {
@@ -56,6 +60,15 @@ public class CategoryServiceJpaImpl implements CategoryService {
         Category category = this.categoryRepository.findOne(id);
         category.setName(categoryBindingModel.getName());
         this.categoryRepository.saveAndFlush(category);
+    }
+
+    @Override
+    public void deleteById(Integer categoryId) {
+        Category category = this.categoryRepository.findOne(categoryId);
+        for (Product product : category.getProducts()) {
+            this.productRepository.delete(product);
+        }
+        this.categoryRepository.delete(categoryId);
     }
 
     private void validate(CategoryBindingModel categoryBindingModel, String errorMessage) throws CategoryCreationException {

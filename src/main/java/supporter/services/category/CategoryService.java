@@ -19,4 +19,6 @@ public interface CategoryService {
     boolean exists(Integer categoryId);
 
     void edit(Integer id, CategoryBindingModel categoryBindingModel) throws CategoryCreationException;
+
+    void deleteById(Integer categoryId);
 }

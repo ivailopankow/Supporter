@@ -46,7 +46,7 @@ public class CategoryController {
         return "redirect:/admin/categories/list";
     }
 
-    @GetMapping("edit/{id}")
+    @GetMapping("/edit/{id}")
     public String edit(Model model, @PathVariable Integer id) {
         if (!this.categoryService.exists(id)) {
             return "redirect:/admin/categories/create";
@@ -56,7 +56,7 @@ public class CategoryController {
         return "admin/category/edit";
     }
 
-    @PostMapping("edit/{id}")
+    @PostMapping("/edit/{id}")
     public String editProcess(@PathVariable Integer id, CategoryBindingModel categoryBindingModel) {
         if (!this.categoryService.exists(id)) {
             return "redirect:/admin/categories/create";
@@ -67,6 +67,25 @@ public class CategoryController {
             String errorMessage = e.getMessage();
             System.out.println(errorMessage);
         }
+        return "redirect:/admin/categories/list";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(Model model, @PathVariable Integer id) {
+        if (!this.categoryService.exists(id)) {
+            return "redirect:/admin/categories/create";
+        }
+        Category category = this.categoryService.findById(id);
+        model.addAttribute("category", category);
+        return "admin/category/delete";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String deleteProcess(@PathVariable Integer id) {
+        if (!this.categoryService.exists(id)) {
+            return "redirect:/admin/categories/create";
+        }
+        this.categoryService.deleteById(id);
         return "redirect:/admin/categories/list";
     }
 }
