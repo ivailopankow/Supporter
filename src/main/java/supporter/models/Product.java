@@ -16,6 +16,7 @@ public class Product {
     private User producer;
     private Set<User> supportedUsers;
     private Set<Ticket> tickets;
+    private Category category;
 
     public Product() {
     }
@@ -82,6 +83,16 @@ public class Product {
 
     public void setSupportedUsers(Set<User> supportedUsers) {
         this.supportedUsers = supportedUsers;
+    }
+
+    @ManyToOne()
+    @JoinColumn(nullable = false, name = "categoryId")
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Transient

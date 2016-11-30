@@ -11,7 +11,7 @@
     <aside>
         <h2>Recent Tickets</h2>
         <a href="#" th:each="ticket : ${latestFiveTickets}" th:text="${ticket.title}"
-           th:href="@{/tickets/view/{id}/(id=${ticket.id})}">Work Begins on HTML5.1</a>
+           th:href="@{/products/view/{id}/(id=${ticket.id})}">Work Begins on HTML5.1</a>
     </aside>
 
     <main id="posts">
