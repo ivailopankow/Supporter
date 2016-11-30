@@ -35,15 +35,33 @@ public class CategoryServiceJpaImpl implements CategoryService {
 
     @Override
     public void create(CategoryBindingModel categoryBindingModel) throws CategoryCreationException {
-        validate(categoryBindingModel);
+        validate(categoryBindingModel, ErrorMessages.CATEGORY_NAME_ERROR);
         Category category = new Category(categoryBindingModel.getName());
         this.categoryRepository.saveAndFlush(category);
     }
 
-    private void validate(CategoryBindingModel categoryBindingModel) throws CategoryCreationException {
+    @Override
+    public Category findById(Integer categoryId) {
+        return this.categoryRepository.findOne(categoryId);
+    }
+
+    @Override
+    public boolean exists(Integer categoryId) {
+        return this.categoryRepository.exists(categoryId);
+    }
+
+    @Override
+    public void edit(Integer id, CategoryBindingModel categoryBindingModel) throws CategoryCreationException {
+        validate(categoryBindingModel, ErrorMessages.CATEGORY_NAME_ERROR);
+        Category category = this.categoryRepository.findOne(id);
+        category.setName(categoryBindingModel.getName());
+        this.categoryRepository.saveAndFlush(category);
+    }
+
+    private void validate(CategoryBindingModel categoryBindingModel, String errorMessage) throws CategoryCreationException {
         String categoryBindingName = categoryBindingModel.getName();
         if (StringUtils.isEmpty(categoryBindingModel)) {
-            throw new CategoryCreationException(ErrorMessages.CATEGORY_NAME_ERROR);
+            throw new CategoryCreationException(errorMessage);
         }
     }
 }

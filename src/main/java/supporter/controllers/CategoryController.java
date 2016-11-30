@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import supporter.exceptions.category.CategoryCreationException;
@@ -38,6 +39,30 @@ public class CategoryController {
     public String createProcess(CategoryBindingModel categoryBindingModel) {
         try {
             this.categoryService.create(categoryBindingModel);
+        } catch (CategoryCreationException e) {
+            String errorMessage = e.getMessage();
+            System.out.println(errorMessage);
+        }
+        return "redirect:/admin/categories/list";
+    }
+
+    @GetMapping("edit/{id}")
+    public String edit(Model model, @PathVariable Integer id) {
+        if (!this.categoryService.exists(id)) {
+            return "redirect:/admin/categories/create";
+        }
+        Category category = this.categoryService.findById(id);
+        model.addAttribute("category", category);
+        return "admin/category/edit";
+    }
+
+    @PostMapping("edit/{id}")
+    public String editProcess(@PathVariable Integer id, CategoryBindingModel categoryBindingModel) {
+        if (!this.categoryService.exists(id)) {
+            return "redirect:/admin/categories/create";
+        }
+        try {
+            this.categoryService.edit(id, categoryBindingModel);
         } catch (CategoryCreationException e) {
             String errorMessage = e.getMessage();
             System.out.println(errorMessage);

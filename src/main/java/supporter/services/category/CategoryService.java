@@ -13,4 +13,10 @@ public interface CategoryService {
     List<Category> findAll(boolean sorted);
 
     void create(CategoryBindingModel categoryBindingModel) throws CategoryCreationException;
+
+    Category findById(Integer categoryId);
+
+    boolean exists(Integer categoryId);
+
+    void edit(Integer id, CategoryBindingModel categoryBindingModel) throws CategoryCreationException;
 }
