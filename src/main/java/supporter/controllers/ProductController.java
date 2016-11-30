@@ -10,12 +10,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import supporter.models.Category;
 import supporter.models.Product;
 import supporter.models.User;
 import supporter.models.binding.ProductBindingModel;
+import supporter.services.category.CategoryService;
 import supporter.services.product.ProductService;
 import supporter.services.user.UserService;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,11 +31,15 @@ public class ProductController {
     private UserService userService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
     @SuppressWarnings("unused")
-    public String create() {
+    public String create(Model model) {
+        List<Category> categories = this.categoryService.findAll(true);
+        model.addAttribute("categories", categories);
         return "product/create";
     }
 
@@ -41,11 +48,13 @@ public class ProductController {
     @SuppressWarnings("unused")
     public String createProcess(ProductBindingModel productBindingModel) {
         User userEntity = this.userService.getCurrentLoggedUser();
+        Category category = this.categoryService.findById(productBindingModel.getCategoryId());
 
         Product product = new Product(
                 productBindingModel.getTitle(),
                 productBindingModel.getContent(),
-                userEntity
+                userEntity,
+                category
         );
 
         productService.create(product);

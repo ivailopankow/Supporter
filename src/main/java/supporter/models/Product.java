@@ -21,10 +21,11 @@ public class Product {
     public Product() {
     }
 
-    public Product(String title, String content, User producer) {
+    public Product(String title, String content, User producer, Category category) {
         this.title = title;
         this.content = content;
         this.producer = producer;
+        this.category = category;
         this.tickets = new HashSet<>();
         this.supportedUsers = new HashSet<>();
     }
