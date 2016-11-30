@@ -91,7 +91,9 @@ public class ProductController {
         }
 
         Product product = this.productService.findById(productId);
+        List<Category> categories = this.categoryService.findAll(true);
         model.addAttribute("product", product);
+        model.addAttribute("categories", categories);
         return "product/edit";
     }
 
@@ -104,9 +106,11 @@ public class ProductController {
             return "redirect:/product/create";
         }
 
+        Category category = this.categoryService.findById(bindingModel.getCategoryId());
         Product product = this.productService.findById(productId);
         product.setTitle(bindingModel.getTitle());
         product.setContent(bindingModel.getContent());
+        product.setCategory(category);
 
         this.productService.edit(product);
         return "redirect:/";
