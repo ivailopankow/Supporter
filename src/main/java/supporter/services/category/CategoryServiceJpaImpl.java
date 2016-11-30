@@ -2,7 +2,11 @@ package supporter.services.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import supporter.exceptions.ErrorMessages;
+import supporter.exceptions.category.CategoryCreationException;
 import supporter.models.Category;
+import supporter.models.binding.CategoryBindingModel;
 import supporter.repositories.CategoryRepository;
 
 import java.util.Comparator;
@@ -27,5 +31,19 @@ public class CategoryServiceJpaImpl implements CategoryService {
                     .collect(Collectors.toList());
         }
         return entities;
+    }
+
+    @Override
+    public void create(CategoryBindingModel categoryBindingModel) throws CategoryCreationException {
+        validate(categoryBindingModel);
+        Category category = new Category(categoryBindingModel.getName());
+        this.categoryRepository.saveAndFlush(category);
+    }
+
+    private void validate(CategoryBindingModel categoryBindingModel) throws CategoryCreationException {
+        String categoryBindingName = categoryBindingModel.getName();
+        if (StringUtils.isEmpty(categoryBindingModel)) {
+            throw new CategoryCreationException(ErrorMessages.CATEGORY_NAME_ERROR);
+        }
     }
 }

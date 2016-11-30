@@ -36,7 +36,7 @@ public class AdminUserController {
     @Autowired
     RoleService roleService;
 
-    @GetMapping("/")
+    @GetMapping("/list")
     public String listUsers(Model model){
         List<User> users = this.userService.findAll();
         model.addAttribute("users", users);

@@ -1,7 +1,8 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
-<head th:include="fragments/head" th:with="pageTitle='User products'"></head>
+<head th:include="fragments/head" th:with="pageTitle='Supporting products'"></head>
 
 <body>
 
@@ -9,27 +10,31 @@
 
 <main>
     <div class="container body-content">
-        <div class="row">
-            <th:block th:each="product : ${products}">
-                <div class="col-md-6">
-                    <article>
-                        <header>
-                            <h2 th:text="${product.title}">Title</h2>
-                        </header>
-                        <p th:text="${product.summary}">
-                            Content
-                        </p>
-                        <small class="author" th:text="${product.producer.fullName}">Producer's name</small>
+        <div class="well">
+            <h2>Supporting Products</h2>
+            <div class="row">
+                <th:block th:each="product : ${products}">
+                    <div class="col-md-6">
+                        <article>
+                            <header>
+                                <h2 th:text="${product.title}">Title</h2>
+                            </header>
+                            <p th:text="${product.summary}">
+                                Content
+                            </p>
+                            <small class="author" th:text="${product.producer.fullName}">Producer's name</small>
 
-                        <footer>
-                            <div class="pull-right">
-                                <a th:href="@{/product/{id}(id=${product.id })}" class="btn btn-default btn-xs">Read more &raquo;</a>
-                            </div>
-                        </footer>
+                            <footer>
+                                <div class="pull-right">
+                                    <a th:href="@{/product/{id}(id=${product.id })}" class="btn btn-default btn-xs">Read
+                                        more &raquo;</a>
+                                </div>
+                            </footer>
 
-                    </article>
-                </div>
-            </th:block>
+                        </article>
+                    </div>
+                </th:block>
+            </div>
         </div>
     </div>
 </main>
