@@ -1,18 +1,25 @@
 package supporter.models.binding;
 
+import supporter.forms.ValidationRules;
+
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Ivaylo on 22-Nov-16.
  */
 public class UserBindingModel {
-    @NotNull
+    @Size(min = ValidationRules.USERNAME_MIN_LENGTH,
+            max = ValidationRules.USERNAME_MAX_LENGTH,
+            message = ValidationRules.USERNAME_ERROR_MESSAGE)
     private String email;
 
     @NotNull
     private String fullName;
 
     @NotNull
+    @Size(min = ValidationRules.PASSWORD_MIN_LENGTH,
+            max = ValidationRules.PASSWORD_MAX_LENGTH)
     private String password;
 
     @NotNull

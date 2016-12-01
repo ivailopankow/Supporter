@@ -47,7 +47,7 @@ public class AdminUserController {
     @GetMapping("/edit/{id}")
     public String editUser(Model model, @PathVariable Integer id){
         if (!this.userService.exists(id)){
-            return "redirect:/admin/users/";
+            return "redirect:/admin/users/list";
         }
 
         User user = this.userService.findById(id);
@@ -61,7 +61,7 @@ public class AdminUserController {
     @PostMapping("/edit/{id}")
     public String editUserProcess(@PathVariable Integer id, EditUserBindingModel userBindingModel){
         if (!this.userService.exists(id)){
-            return "redirect:/admin/users/";
+            return "redirect:/admin/users/list";
         }
         User user = this.userService.findById(id);
 
@@ -86,13 +86,13 @@ public class AdminUserController {
         user.setRoles(roles);
 
         this.userService.edit(user);
-        return "redirect:/admin/users/";
+        return "redirect:/admin/users/list";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, Model model){
         if (!this.userService.exists(id)){
-            return "redirect:/admin/users/";
+            return "redirect:/admin/users/list";
         }
 
         User user = this.userService.findById(id);
@@ -104,13 +104,13 @@ public class AdminUserController {
     @PostMapping("delete/{id}")
     public String deleteProcess(@PathVariable Integer id) {
         if (!this.userService.exists(id)){
-            return "redirect:/admin/users/";
+            return "redirect:/admin/users/list";
         }
         User user = this.userService.findById(id);
         for (Product product : user.getProducts()) {
             this.productService.deleteById(product.getId());
         }
         this.userService.deleteById(id);
-        return "redirect:/admin/users/";
+        return "redirect:/admin/users/list";
     }
 }

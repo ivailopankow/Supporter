@@ -10,31 +10,41 @@
 <main>
     <div class="container body-content span=8 offset=2">
         <div class="well">
-            <form class="form-horizontal" th:action="@{/register}" method="post">
+            <form class="form-horizontal" th:object="${registerForm}" th:action="@{/register}" method="post">
                 <fieldset>
                     <legend>Register</legend>
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="user_email">Email</label>
                         <div class="col-sm-4 ">
-                            <input class="form-control" type="email" id="user_email" placeholder="Email" name="email" required="required"/>
+                            <input id="user_email" class="form-control" type="email" placeholder="Email"
+                                   name="email" required="required" th:value="*{email}"/>
+                            <span class="formError" th:if="${#fields.hasErrors('email')}"
+                                  th:errors="*{email}">Invalid username</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="user_fullname">Full Name</label>
                         <div class="col-sm-4 ">
-                            <input class="form-control" type="text" id="user_fullname" placeholder="Full Name" name="fullName" required="required"/>
+                            <input id="user_fullname" class="form-control" type="text" placeholder="Full Name"
+                                   name="fullName" th:value="*{fullName}" required="required"/>
+                            <span class="formError" th:if="${#fields.hasErrors('fullName')}"
+                                  th:errors="*{fullName}">Invalid name</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="user_password_first">Password</label>
                         <div class="col-sm-4">
                             <input type="password" class="form-control" id="user_password_first" placeholder="Password" name="password" required="required"/>
+                            <span class="formError" th:if="${#fields.hasErrors('password')}"
+                                  th:errors="*{password}">Invalid password</span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="user_password_second">Confirm Password</label>
                         <div class="col-sm-4">
                             <input type="password" class="form-control" id="user_password_second" placeholder="Password" name="confirmPassword" required="required"/>
+                            <span class="formError" th:if="${#fields.hasErrors('confirmPassword')}"
+                                  th:errors="*{confirmPassword}">Invalid password</span>
                         </div>
                     </div>
                     <div class="form-group">

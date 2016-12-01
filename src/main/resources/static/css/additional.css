@@ -1,0 +1,23 @@
+.formError {
+    color: red;
+    font-style: italic;
+}
+
+#notification-message {
+    display: block;
+    width: 80%;
+    margin: 5px auto;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+#notification-message .info {
+    background: #7f7;
+}
+
+#notification-message .error {
+    background: #d00;
+    color: white;
+}
+

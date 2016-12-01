@@ -1,4 +1,10 @@
 <head th:fragment="head">
     <title th:if="${pageTitle}" th:text="${pageTitle}"></title>
     <link th:href="@{/css/style.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/additional.css}" rel="stylesheet" type="text/css"/>
+    <script src="../static/scripts/jquery-2.2.4.min.js"
+            th:src="@{/scripts/jquery-2.2.4.min.js}"></script>
+    <script src="../static/scripts/blog-scripts.js"
+            th:src="@{/scripts/supporter-scripts.js}"></script>
+
 </head>

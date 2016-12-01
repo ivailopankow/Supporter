@@ -59,4 +59,8 @@
             </div>
         </div>
     </div>
+    <div id="notification-message" th:if="${message}"    >
+        <div th:class="${message.isError() ? 'error' : 'info'}" th:text="${message.text}">Notification Message</div>
+    </div>
+
 </header>
