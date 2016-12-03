@@ -56,13 +56,15 @@ public class UserController extends BaseController{
     }
 
     @PostMapping("/register")
-    public String registerProcess(@Valid @ModelAttribute("registerForm") final UserBindingModel userBindingModel,
+    public String registerProcess(@Valid @ModelAttribute(Const.BINDING_MODEL_REGISTER) final UserBindingModel userBindingModel,
                                   final BindingResult bindingResult,
                                   final RedirectAttributes redirectAttributes){
 
         if (bindingResult.hasErrors()) {
             String messageText = DisplayedMessages.ERROR_IN_FORM;
             NotificationMessage message = super.generateNotificationMessage(messageText, NotificationMessage.Type.ERROR);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerForm", bindingResult);
+            redirectAttributes.addFlashAttribute(Const.BINDING_MODEL_REGISTER, userBindingModel);
             redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
             return "redirect:/register";
         }
@@ -70,6 +72,8 @@ public class UserController extends BaseController{
 
             String messageText = DisplayedMessages.PASSWORD_MISMATCH;
             NotificationMessage message = super.generateNotificationMessage(messageText, NotificationMessage.Type.ERROR);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerForm", bindingResult);
+            redirectAttributes.addFlashAttribute(Const.BINDING_MODEL_REGISTER, userBindingModel);
             redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
             return "redirect:/register";
         }
@@ -120,7 +124,7 @@ public class UserController extends BaseController{
         return "user/profile";
     }
 
-    @GetMapping("/products/supporting/list/")
+    @GetMapping("/products/supporting/list")
     @PreAuthorize("isAuthenticated()")
     public String listProducerProducts(Model model) {
         User loggedUser = this.userService.getCurrentLoggedUser();

@@ -1,6 +1,5 @@
 package supporter.services.user;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import supporter.models.User;
 
 import java.util.List;

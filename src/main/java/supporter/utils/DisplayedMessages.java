@@ -8,6 +8,10 @@ public class DisplayedMessages {
     public static final String PASSWORD_MISMATCH = "Entered passwords do not match!";
     public static final String LOGOUT_SUCCESSFUL = "Successfully logged out";
     public static final String USER_REGISTER_SUCCESS = "User successfully created";
+    public static final String CREATE_PRODUCT_SUCCESS = "Product successfully created";
+    public static final String NON_EXISTING_RESOURCE = "Trying to access non-existing resource";
+    public static final String EDIT_PRODUCT = "Product successfully edited";
+    public static final String DELETE_PRODUCT = "Product successfully deleted";
     public static String ERROR_IN_FORM = "Please fill the form correctly!";
 
 }

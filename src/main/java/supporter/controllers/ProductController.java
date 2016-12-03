@@ -7,9 +7,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import supporter.models.Category;
 import supporter.models.Product;
 import supporter.models.User;
@@ -17,15 +20,18 @@ import supporter.models.binding.ProductBindingModel;
 import supporter.services.category.CategoryService;
 import supporter.services.product.ProductService;
 import supporter.services.user.UserService;
+import supporter.utils.Const;
+import supporter.utils.DisplayedMessages;
+import supporter.utils.NotificationMessage;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Ivaylo on 22-Nov-16.
  */
 @Controller
-public class ProductController {
+public class ProductController extends BaseController{
 
     @Autowired
     private UserService userService;
@@ -34,19 +40,38 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
+    @ModelAttribute(Const.BINDING_MODEL_CREATE_PRODUCT)
+    public ProductBindingModel newProductBindingModel() {
+        return new ProductBindingModel();
+    }
+
+
     @GetMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
     @SuppressWarnings("unused")
     public String create(Model model) {
         List<Category> categories = this.categoryService.findAll(true);
-        model.addAttribute("categories", categories);
+        model.addAttribute(Const.CATEGORIES_VIEW_KEY, categories);
         return "product/create";
     }
 
     @PostMapping("/product/create")
     @PreAuthorize("isAuthenticated()")
     @SuppressWarnings("unused")
-    public String createProcess(ProductBindingModel productBindingModel) {
+    public String createProcess(@Valid @ModelAttribute(Const.BINDING_MODEL_CREATE_PRODUCT) final ProductBindingModel productBindingModel,
+                                final BindingResult bindingResult,
+                                final RedirectAttributes redirectAttributes) {
+
+        if (bindingResult.hasErrors()) {
+            // TODO: 03-Dec-16 extract this logic in BaseController
+            String messageText = DisplayedMessages.ERROR_IN_FORM;
+            NotificationMessage message = super.generateNotificationMessage(messageText, NotificationMessage.Type.ERROR);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.productForm", bindingResult);
+            redirectAttributes.addFlashAttribute(Const.BINDING_MODEL_CREATE_PRODUCT, productBindingModel);
+            redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
+            return "redirect:/product/create";
+        }
+
         User userEntity = this.userService.getCurrentLoggedUser();
         Category category = this.categoryService.findById(productBindingModel.getCategoryId());
 
@@ -57,52 +82,58 @@ public class ProductController {
                 category
         );
 
+        String notificationMessage = DisplayedMessages.CREATE_PRODUCT_SUCCESS;
+        NotificationMessage message = super.generateNotificationMessage(notificationMessage, NotificationMessage.Type.INFO);
+        redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
+
         productService.create(product);
 
         return "redirect:/";
     }
 
     @GetMapping("/product/{productId}")
-    public String details(@PathVariable int productId,
-                          Model model){
+    public String details(@PathVariable int productId, Model model, RedirectAttributes redirectAttributes){
         if (!this.productService.exists(productId)){
+            super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/product/create";
         }
 
         if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)){
             UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User entityUser = this.userService.findByEmail(principal.getUsername());
-            model.addAttribute("user", entityUser);
+            model.addAttribute(Const.USER_VIEW_KEY, entityUser);
         }
         Product product = productService.findById(productId);
 
-        model.addAttribute("product", product);
+        model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
 
         return "product/details";
     }
 
     @GetMapping("/product/edit/{productId}")
     @PreAuthorize("isAuthenticated()")
-    public String edit(@PathVariable int productId,
-                       Model model) {
+    public String edit(@PathVariable int productId, Model model, RedirectAttributes redirectAttributes) {
 
         if (!this.productService.exists(productId)){
+            super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/product/create";
         }
 
         Product product = this.productService.findById(productId);
         List<Category> categories = this.categoryService.findAll(true);
-        model.addAttribute("product", product);
-        model.addAttribute("categories", categories);
+        model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
+        model.addAttribute(Const.CATEGORIES_VIEW_KEY, categories);
         return "product/edit";
     }
 
     @PostMapping("/product/edit/{productId}")
     @PreAuthorize("isAuthenticated()")
-    public String editProcess(@PathVariable int productId,
-                              ProductBindingModel bindingModel) {
+    public String editProcess(final @PathVariable Integer productId,
+                              final ProductBindingModel bindingModel,
+                              final RedirectAttributes redirectAttributes) {
 
         if (!this.productService.exists(productId)){
+            super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/product/create";
         }
 
@@ -113,29 +144,37 @@ public class ProductController {
         product.setCategory(category);
 
         this.productService.edit(product);
-        return "redirect:/";
+        String messageText = DisplayedMessages.EDIT_PRODUCT;
+        NotificationMessage message =  super.generateNotificationMessage(messageText, NotificationMessage.Type.INFO);
+        redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
+        return "redirect:/products/supporting/list";
     }
 
     @GetMapping("product/delete/{productId}")
     @PreAuthorize("isAuthenticated()")
-    public String delete(Model model, @PathVariable Integer productId) {
+    public String delete(Model model, final @PathVariable Integer productId, final RedirectAttributes redirectAttributes) {
         if (!this.productService.exists(productId)){
+            super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/product/create";
         }
 
         Product product = this.productService.findById(productId);
-        model.addAttribute("product", product);
+        model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
         return "product/delete";
     }
 
     @PostMapping("product/delete/{productId}")
     @PreAuthorize("isAuthenticated()")
-    public String deleteProcess(@PathVariable Integer productId){
+    public String deleteProcess(final @PathVariable Integer productId, final RedirectAttributes redirectAttributes){
         if (!this.productService.exists(productId)){
+            super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/product/create";
         }
 
         this.productService.deleteById(productId);
+        String text = DisplayedMessages.DELETE_PRODUCT;
+        NotificationMessage message = super.generateNotificationMessage(text, NotificationMessage.Type.INFO);
+        redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
         return "redirect:/";
     }
 }

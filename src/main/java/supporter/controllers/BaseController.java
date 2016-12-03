@@ -1,5 +1,8 @@
 package supporter.controllers;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import supporter.utils.Const;
+import supporter.utils.DisplayedMessages;
 import supporter.utils.NotificationMessage;
 
 /**
@@ -16,5 +19,11 @@ public class BaseController {
             default:
                 throw new IllegalArgumentException("Wrong message type");
         }
+    }
+
+    public void showNonExistingResourceError(RedirectAttributes redirectAttributes) {
+        String messageText = DisplayedMessages.NON_EXISTING_RESOURCE;
+        NotificationMessage message = generateNotificationMessage(messageText, NotificationMessage.Type.ERROR);
+        redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
     }
 }

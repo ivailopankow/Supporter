@@ -10,21 +10,29 @@
 <main>
     <div class="container body-content span=8 offset=2">
         <div class="well">
-            <form class="form-horizontal" th:action="@{/product/create}" method="post">
+            <form class="form-horizontal" th:object="${productForm}" th:action="@{/product/create}" method="post">
                 <fieldset>
                     <legend>New Product</legend>
 
                     <div class="form-group">
                         <label for="product_title" class="col-sm-4 control-label">Product title</label>
                         <div class="col-sm-4 ">
-                            <input type="text" class="form-control" id="product_title" placeholder="Product Title" name="title" />
+                            <input id="product_title" class="form-control" type="text" placeholder="Product Title"
+                                   name="title" required="required" th:value="*{title}"/>
+                            <span class="formError" th:if="${#fields.hasErrors('title')}"
+                                  th:errors="*{title}">Invalid title</span>
                         </div>
+
                     </div>
                     <div class="form-group">
                         <label for="product_content" class="col-sm-4 control-label">Content</label>
                         <div class="col-sm-6">
-                            <textarea name="content" id="product_content" cols="30" rows="6" class="form-control"></textarea>
+                            <textarea id="product_content" class="form-control" cols="30" rows="6"
+                                      name="content" th:value="*{content}"  placeholder="Product Content"></textarea>
+                            <span class="formError" th:if="${#fields.hasErrors('content')}"
+                                  th:errors="*{content}">Invalid Content</span>
                         </div>
+
                     </div>
                     <div class="form-group">
                         <label class="col-sm-4 control-label" for="article_category">Category</label>
