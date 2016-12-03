@@ -23,4 +23,5 @@ public class Const {
     public static final String CATEGORY_VIEW_KEY = "category";
     public static final String USERS_VIEW_KEY = "users";
     public static final String ROLES_VIEW_KEY = "roles";
+    public static final String SUPPORTED_PRODUCTS = "subscribedProducts";
 }

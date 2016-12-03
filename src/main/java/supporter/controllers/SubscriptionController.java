@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import supporter.models.Product;
 import supporter.models.User;
 import supporter.services.product.ProductService;
 import supporter.services.user.UserService;
+import supporter.utils.Const;
+import supporter.utils.DisplayedMessages;
+import supporter.utils.NotificationMessage;
 
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -22,7 +25,7 @@ import java.util.Set;
 @Controller
 @PreAuthorize("isAuthenticated()")
 @RequestMapping("products/subscribed")
-public class SubscriptionController {
+public class SubscriptionController extends BaseController{
 
     @Autowired
     private ProductService productService;
@@ -31,8 +34,9 @@ public class SubscriptionController {
     private UserService userService;
 
     @GetMapping("/{productId}")
-    public String subscribe(@PathVariable Integer productId, Model model){
+    public String subscribe(Model model, final @PathVariable Integer productId, final RedirectAttributes redirectAttributes){
         if (!this.productService.exists(productId)) {
+            super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/";
         }
 
@@ -43,13 +47,14 @@ public class SubscriptionController {
             return "error/403";
         }
 
-        model.addAttribute("product", product);
+        model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
         return "product/subscription/subscribe";
     }
 
     @PostMapping("/{productId}")
-    public String subscribeProcess(@PathVariable Integer productId) {
+    public String subscribeProcess(final @PathVariable Integer productId, final RedirectAttributes redirectAttributes) {
         if (!this.productService.exists(productId)) {
+            super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/";
         }
 
@@ -58,7 +63,9 @@ public class SubscriptionController {
 
         user.getSupportedProducts().add(product);
         this.userService.edit(user);
-
+        String text = DisplayedMessages.SUBSRIPTION_SUCCESS;
+        NotificationMessage message = super.generateNotificationMessage(text, NotificationMessage.Type.INFO);
+        redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
         return "redirect:/products/subscribed/list";
     }
 
@@ -66,22 +73,21 @@ public class SubscriptionController {
     public String showAllSubscribedProducts(Model model){
         User user = this.userService.getCurrentLoggedUser();
         Set<Product> subscribedProducts = user.getSupportedProducts();
-        model.addAttribute("subscribedProducts", subscribedProducts);
+        model.addAttribute(Const.SUPPORTED_PRODUCTS, subscribedProducts);
         return "product/subscription/list";
     }
 
     @GetMapping("/view/{id}")
-    public String detailedSubscription(Model model, @PathVariable Integer id) {
+    public String detailedSubscription(Model model, final @PathVariable Integer id, final RedirectAttributes redirectAttributes) {
         User user = this.userService.getCurrentLoggedUser();
         Set<Product> supportedProducts = user.getSupportedProducts();
-        if (! supportedProducts.contains(id)) {
-            // TODO: 03-Dec-16 implement error handling
+        Product product = this.productService.findById(id);
+        if (!supportedProducts.contains(product)) {
+            super.showNonExistingResourceError(redirectAttributes);
+            return "redirect:/products/subscribed/list";
         }
-        Product product = supportedProducts.stream()
-                .filter( p -> Objects.equals(p.getId(), id))
-                .findFirst()
-                .get();
-        model.addAttribute("product", product);
+
+        model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
         return "product/subscription/details";
     }
 
