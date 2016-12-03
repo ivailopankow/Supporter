@@ -3,14 +3,9 @@
     font-style: italic;
 }
 
-/*#notification-message {*/
-    /*display: block;*/
-    /*width: 80%;*/
-    /*margin: 5px auto;*/
-    /*text-align: center;*/
-    /*padding: 5px;*/
-    /*border-radius: 5px;*/
-/*}*/
+#notification-message {
+    text-align: center;
+}
 
 #notification-message .info {
     background: #7f7;
