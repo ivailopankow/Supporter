@@ -26,4 +26,8 @@ public class ValidationRules {
     public static final int PRODUCT_CONTENT_MAX_LENGTH = 100;
     public static final String PRODUCT_CONTENT_ERROR_MESSAGE = "Product content should be in the range [" +
             PRODUCT_CONTENT_MIN_LENGTH + "..." +  PRODUCT_CONTENT_MAX_LENGTH + "]";
+    public static final int CATEGORY_NAME_MIN_LENGTH = 3;
+    public static final int CATEGORY_NAME_MAX_LENGTH = 15;
+    public static final String CATEGORY_NAME_ERROR_MESSAGE = "Category name should be in the range [" +
+            CATEGORY_NAME_MIN_LENGTH + "..." +  CATEGORY_NAME_MAX_LENGTH + "]";
 }

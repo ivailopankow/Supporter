@@ -63,7 +63,7 @@ public class UserController extends BaseController{
         if (bindingResult.hasErrors()) {
             String messageText = DisplayedMessages.ERROR_IN_FORM;
             NotificationMessage message = super.generateNotificationMessage(messageText, NotificationMessage.Type.ERROR);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerForm", bindingResult);
+            redirectAttributes.addFlashAttribute(Const.BINDING_MODEL_RESULT_REGISTER, bindingResult);
             redirectAttributes.addFlashAttribute(Const.BINDING_MODEL_REGISTER, userBindingModel);
             redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
             return "redirect:/register";

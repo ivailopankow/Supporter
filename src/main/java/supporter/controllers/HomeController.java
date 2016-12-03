@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import supporter.models.Category;
 import supporter.models.Product;
 import supporter.services.category.CategoryService;
-import supporter.services.product.ProductService;
+import supporter.utils.Const;
 
 import java.util.List;
 import java.util.Set;
@@ -26,7 +26,7 @@ public class HomeController {
     @GetMapping("/")
     public String index(Model model) {
         List<Category> categories = categoryService.findAll(false);
-        model.addAttribute("categories", categories);
+        model.addAttribute(Const.CATEGORIES_VIEW_KEY, categories);
         return "home/index";
     }
 
@@ -38,8 +38,8 @@ public class HomeController {
 
         Category category = this.categoryService.findById(categoryId);
         Set<Product> products = category.getProducts();
-        model.addAttribute("category", category);
-        model.addAttribute("products", products);
+        model.addAttribute(Const.CATEGORY_VIEW_KEY, category);
+        model.addAttribute(Const.PRODUCTS_VIEW_KEY, products);
         return "home/category-products-list";
     }
 

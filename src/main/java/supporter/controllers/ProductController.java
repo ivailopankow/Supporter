@@ -66,7 +66,7 @@ public class ProductController extends BaseController{
             // TODO: 03-Dec-16 extract this logic in BaseController
             String messageText = DisplayedMessages.ERROR_IN_FORM;
             NotificationMessage message = super.generateNotificationMessage(messageText, NotificationMessage.Type.ERROR);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.productForm", bindingResult);
+            redirectAttributes.addFlashAttribute(Const.BINDING_MODEL_RESULT_PRODUCT, bindingResult);
             redirectAttributes.addFlashAttribute(Const.BINDING_MODEL_CREATE_PRODUCT, productBindingModel);
             redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
             return "redirect:/product/create";
