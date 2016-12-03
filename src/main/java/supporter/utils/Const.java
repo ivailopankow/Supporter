@@ -21,4 +21,6 @@ public class Const {
     public static final String CATEGORIES_VIEW_KEY = "categories";
     public static final String PRODUCT_VIEW_KEY = "product";
     public static final String CATEGORY_VIEW_KEY = "category";
+    public static final String USERS_VIEW_KEY = "users";
+    public static final String ROLES_VIEW_KEY = "roles";
 }

@@ -15,6 +15,8 @@ public class DisplayedMessages {
     public static final String CREATE_CATEGORY_SUCCESS = "Category successfully created";
     public static final String EDIT_CATEGORY = "Category successfully edited";
     public static final String DELETE_CATEGORY = "Category successfully deleted";
+    public static final String EDIT_USER = "User successfully edited";
+    public static final String DELETE_USER = "User successfully deleted";
     public static String ERROR_IN_FORM = "Please fill the form correctly!";
 
 }
