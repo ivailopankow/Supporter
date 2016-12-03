@@ -1,4 +1,4 @@
-package supporter.forms;
+package supporter.utils;
 
 /**
  * Created by Ivaylo on 13-Nov-16.

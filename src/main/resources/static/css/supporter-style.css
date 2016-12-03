@@ -8,7 +8,8 @@
 }
 
 #notification-message .info {
-    background: #7f7;
+    background: #62c462;
+    color: white;
 }
 
 #notification-message .error {

@@ -7,7 +7,7 @@ import supporter.utils.NotificationMessage;
  */
 public class BaseController {
 
-    public NotificationMessage generateNotificationMessage(String text, NotificationMessage.Type type) {
+    NotificationMessage generateNotificationMessage(String text, NotificationMessage.Type type) {
         switch (type) {
             case ERROR:
                 return NotificationMessage.getErrorNotificationMessage(text);

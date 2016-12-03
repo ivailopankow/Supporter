@@ -1,6 +1,6 @@
 package supporter.models.binding;
 
-import supporter.forms.ValidationRules;
+import supporter.utils.ValidationRules;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

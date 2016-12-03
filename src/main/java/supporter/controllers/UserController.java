@@ -2,7 +2,6 @@ package supporter.controllers;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import org.apache.log4j.Priority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -21,6 +20,7 @@ import supporter.models.binding.UserBindingModel;
 import supporter.services.role.RoleService;
 import supporter.services.user.UserService;
 import supporter.utils.Const;
+import supporter.utils.DisplayedMessages;
 import supporter.utils.NotificationMessage;
 
 import javax.servlet.http.HttpServletResponse;
@@ -33,15 +33,13 @@ import java.util.Set;
 @Controller
 public class UserController extends BaseController{
 
-    private static final String USER_KEY = "user";
-
     @Autowired
     private RoleService roleService;
 
     @Autowired
     private UserService userService;
 
-    @ModelAttribute("registerForm")
+    @ModelAttribute(Const.BINDING_MODEL_REGISTER)
     public UserBindingModel newUserBindingModel() {
         return new UserBindingModel();
     }
@@ -63,14 +61,16 @@ public class UserController extends BaseController{
                                   final RedirectAttributes redirectAttributes){
 
         if (bindingResult.hasErrors()) {
-            String messageText = "Please fill the form correctly";
+            String messageText = DisplayedMessages.ERROR_IN_FORM;
             NotificationMessage message = super.generateNotificationMessage(messageText, NotificationMessage.Type.ERROR);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.registerForm", bindingResult);
-            redirectAttributes.addFlashAttribute("registerForm", userBindingModel);
-            redirectAttributes.addFlashAttribute("message", message);
+            redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
             return "redirect:/register";
         }
         if(!userBindingModel.getPassword().equals(userBindingModel.getConfirmPassword())){
+
+            String messageText = DisplayedMessages.PASSWORD_MISMATCH;
+            NotificationMessage message = super.generateNotificationMessage(messageText, NotificationMessage.Type.ERROR);
+            redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
             return "redirect:/register";
         }
 
@@ -87,9 +87,9 @@ public class UserController extends BaseController{
         user.addRole(userRole);
 
         this.userService.create(user);
-        String text = "User successfully created";
+        String text = DisplayedMessages.USER_REGISTER_SUCCESS;
         NotificationMessage message = super.generateNotificationMessage(text, NotificationMessage.Type.INFO);
-        redirectAttributes.addFlashAttribute("message", message);
+        redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
         return "redirect:/login";
     }
 
@@ -106,9 +106,9 @@ public class UserController extends BaseController{
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        String text = "Successfully logged out";
+        String text = DisplayedMessages.LOGOUT_SUCCESSFUL;
         NotificationMessage message = super.generateNotificationMessage(text, NotificationMessage.Type.INFO);
-        redirectAttributes.addFlashAttribute("message", message);
+        redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
         return "redirect:/";
     }
 
@@ -116,7 +116,7 @@ public class UserController extends BaseController{
     @PreAuthorize("isAuthenticated()")
     public String profilePage(Model model){
         User user = this.userService.getCurrentLoggedUser();
-        model.addAttribute(USER_KEY, user);
+        model.addAttribute(Const.USER_VIEW_KEY, user);
         return "user/profile";
     }
 
@@ -125,7 +125,7 @@ public class UserController extends BaseController{
     public String listProducerProducts(Model model) {
         User loggedUser = this.userService.getCurrentLoggedUser();
         Set<Product> userProducts = loggedUser.getProducts();
-        model.addAttribute("products", userProducts);
+        model.addAttribute(Const.PRODUCTS_VIEW_KEY, userProducts);
 
         return "product/user-list";
     }
