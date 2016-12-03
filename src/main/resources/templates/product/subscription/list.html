@@ -27,7 +27,7 @@
                             <td th:text="${product.title}"></td>
                             <td th:text="${product.producer.fullName}"></td>
                             <td>
-                                <a th:href="@{/product/subscribe/view/{id}(id=${product.id})}">View</a>
+                                <a th:href="@{/products/subscribed/view/{id}(id=${product.id})}">View</a>
                             </td>
                         </tr>
                     </th:block>

@@ -13,6 +13,7 @@ import supporter.models.User;
 import supporter.services.product.ProductService;
 import supporter.services.user.UserService;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -58,7 +59,7 @@ public class SubscriptionController {
         user.getSupportedProducts().add(product);
         this.userService.edit(user);
 
-        return "redirect:/";
+        return "redirect:/products/subscribed/list";
     }
 
     @GetMapping("/list")
@@ -67,6 +68,21 @@ public class SubscriptionController {
         Set<Product> subscribedProducts = user.getSupportedProducts();
         model.addAttribute("subscribedProducts", subscribedProducts);
         return "product/subscription/list";
+    }
+
+    @GetMapping("/view/{id}")
+    public String detailedSubscription(Model model, @PathVariable Integer id) {
+        User user = this.userService.getCurrentLoggedUser();
+        Set<Product> supportedProducts = user.getSupportedProducts();
+        if (! supportedProducts.contains(id)) {
+            // TODO: 03-Dec-16 implement error handling
+        }
+        Product product = supportedProducts.stream()
+                .filter( p -> Objects.equals(p.getId(), id))
+                .findFirst()
+                .get();
+        model.addAttribute("product", product);
+        return "product/subscription/details";
     }
 
 }

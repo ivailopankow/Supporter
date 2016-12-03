@@ -99,13 +99,16 @@ public class UserController extends BaseController{
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+    public String logoutPage (HttpServletRequest request, HttpServletResponse response,
+                              RedirectAttributes redirectAttributes) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-
+        String text = "Successfully logged out";
+        NotificationMessage message = super.generateNotificationMessage(text, NotificationMessage.Type.INFO);
+        redirectAttributes.addFlashAttribute("message", message);
         return "redirect:/";
     }
 
