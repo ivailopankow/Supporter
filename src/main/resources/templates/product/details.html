@@ -30,7 +30,7 @@
                                 <a class="btn btn-success btn-xs" th:href="@{/product/edit/{id}(id=${product.id})}">Edit</a>
                                 <a class="btn btn-danger btn-xs" th:href="@{/product/delete/{id}(id=${product.id})}">Delete</a>
                             </th:block>
-                            <a class="btn btn-info btn-xs" th:if="${!user.isProducer(product)}" th:href="@{/products/subscribed/{id}(id=${product.id})}">Subscribe</a>
+                            <a class="btn btn-info btn-xs"  th:href="@{/products/subscribed/{id}(id=${product.id})}">Subscribe</a>
                             <a class="btn btn-default btn-xs" th:href="@{/}">back &raquo;</a>
                         </div>
                     </footer>

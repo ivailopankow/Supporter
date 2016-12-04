@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head th:include="fragments/head" th:with="pageTitle='Create Ticket'"></head>
+
+<body>
+
+<header th:include="fragments/header"></header>
+
+<main>
+    <div class="container body-content span=8 offset=2">
+        <div class="well">
+            <form class="form-horizontal" th:object="${ticketForm}" th:action="@{/products/subscribed/view/{id}(id = *{productId})}" method="post">
+                <fieldset>
+                    <legend>New Ticket</legend>
+
+                    <div class="form-group">
+                        <label for="ticket_title" class="col-sm-4 control-label">Ticket title</label>
+                        <div class="col-sm-4 ">
+                            <input id="ticket_title" class="form-control" type="text" placeholder="Ticket Title"
+                                   name="title" required="required" th:value="*{title}"/>
+                            <span class="formError" th:if="${#fields.hasErrors('title')}"
+                                  th:errors="*{title}">Invalid title</span>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="ticket_content" class="col-sm-4 control-label">Content</label>
+                        <div class="col-sm-6">
+                            <textarea id="ticket_content" class="form-control" cols="30" rows="6"
+                                      name="content" th:value="*{content}"  placeholder="Ticket Content"></textarea>
+                            <span class="formError" th:if="${#fields.hasErrors('content')}"
+                                  th:errors="*{content}">Invalid Content</span>
+                        </div>
+
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-4 control-label" for="article_category">Tags for Ticket</label>-->
+                        <!--<div class="col-sm-6">-->
+                            <!--<select class="form-control" id="article_category" name="categoryId">-->
+                                <!--<option th:each="tag : ${tags}" th:value="${tag.id}" th:text="${tag.name}"></option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-4">
+                            <a th:href="@{/products/subscribed/view/{id}(id = *{productId})}" class="btn btn-default">Cancel</a>
+                            <input type="submit" class="btn btn-primary" value="Submit"/>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:include="fragments/footer"></footer>
+
+<span th:include="fragments/scripts-bundle"></span>
+
+</body>
+</html>

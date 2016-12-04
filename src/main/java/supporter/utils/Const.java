@@ -11,6 +11,7 @@ public class Const {
     public static final String BINDING_MODEL_REGISTER = "registerForm";
     public static final String BINDING_MODEL_CREATE_PRODUCT = "productForm";
     public static final String BINDING_MODEL_CATEGORY = "categoryForm";
+    public static final String BINDING_MODEL_CREATE_TICKET = "ticketForm";
     public static final String BINDING_MODEL_RESULT_REGISTER = "org.springframework.validation.BindingResult." + BINDING_MODEL_REGISTER;
     public static final String BINDING_MODEL_RESULT_PRODUCT = "org.springframework.validation.BindingResult." + BINDING_MODEL_CREATE_PRODUCT;
     public static final String BINDING_MODEL_RESULT_CATEGORY = "org.springframework.validation.BindingResult." + BINDING_MODEL_CATEGORY;
