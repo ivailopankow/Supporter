@@ -18,6 +18,7 @@ public class DisplayedMessages {
     public static final String EDIT_USER = "User successfully edited";
     public static final String DELETE_USER = "User successfully deleted";
     public static final String SUBSRIPTION_SUCCESS = "You have successfully subscribed for support";
+    public static final String CREATE_TICKET_SUCCESS = "Ticket successfully created";
     public static String ERROR_IN_FORM = "Please fill the form correctly!";
 
 }

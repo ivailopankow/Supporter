@@ -4,17 +4,19 @@ package supporter.utils;
  * Created by Ivaylo on 25-Nov-16.
  */
 public class Const {
+    private static final String BINDING_RESULT = "org.springframework.validation.BindingResult.";
+
     public static final String ROLE_USER_KEY = "ROLE_USER";
     public static final String ROLE_ADMIN_KEY = "ROLE_ADMIN";
 
-    public static final String BINDING_MODEL_RESULT = "org.springframework.validation.BindingResult.";
     public static final String BINDING_MODEL_REGISTER = "registerForm";
     public static final String BINDING_MODEL_CREATE_PRODUCT = "productForm";
     public static final String BINDING_MODEL_CATEGORY = "categoryForm";
     public static final String BINDING_MODEL_CREATE_TICKET = "ticketForm";
-    public static final String BINDING_MODEL_RESULT_REGISTER = "org.springframework.validation.BindingResult." + BINDING_MODEL_REGISTER;
-    public static final String BINDING_MODEL_RESULT_PRODUCT = "org.springframework.validation.BindingResult." + BINDING_MODEL_CREATE_PRODUCT;
-    public static final String BINDING_MODEL_RESULT_CATEGORY = "org.springframework.validation.BindingResult." + BINDING_MODEL_CATEGORY;
+    public static final String BINDING_MODEL_RESULT_REGISTER = BINDING_RESULT + BINDING_MODEL_REGISTER;
+    public static final String BINDING_MODEL_RESULT_PRODUCT = BINDING_RESULT + BINDING_MODEL_CREATE_PRODUCT;
+    public static final String BINDING_MODEL_RESULT_CATEGORY = BINDING_RESULT + BINDING_MODEL_CATEGORY;
+    public static final String BINDING_MODEL_RESULT_TICKET = BINDING_RESULT + BINDING_MODEL_CREATE_TICKET;
 
     public static final String USER_VIEW_KEY = "user";
     public static final String NOTIFICATION_MESSAGE_VIEW_KEY = "message";
