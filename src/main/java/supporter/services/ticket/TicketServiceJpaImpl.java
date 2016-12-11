@@ -49,4 +49,9 @@ public class TicketServiceJpaImpl implements TicketService {
     public void deleteById(Long id) {
         this.ticketRepository.delete(id);
     }
+
+    @Override
+    public boolean exists(Long ticketId) {
+        return this.ticketRepository.exists(ticketId);
+    }
 }

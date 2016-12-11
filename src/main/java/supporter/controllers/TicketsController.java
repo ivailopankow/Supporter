@@ -93,4 +93,16 @@ public class TicketsController extends  BaseController{
         return "redirect:/products/subscribed/view/" + productId;
     }
 
+    @GetMapping("/view/{id}")
+    public String details (final @PathVariable Long id, final RedirectAttributes redirectAttributes, final Model model) {
+        if (!this.ticketService.exists(id)) {
+            super.showNonExistingResourceError(redirectAttributes);
+            return "redirect:/products/subscribed/tickets/create/" + currentProductId;
+        }
+
+        Ticket ticket = this.ticketService.findById(id);
+        model.addAttribute(Const.TICKET_VIEW_KEY, ticket);
+        return "product/ticket/details";
+    }
+
 }

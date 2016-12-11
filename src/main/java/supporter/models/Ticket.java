@@ -2,6 +2,8 @@ package supporter.models;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Ivaylo on 12-Nov-16.
@@ -11,18 +13,20 @@ import java.util.Date;
 @Table(name = "tickets")
 public class Ticket {
 
-    private Integer id;
+    private Long id;
     private String title;
     private String body;
     private User author;
     private Product product;
     private Date date = new Date();
+    private Set<Comment> comments;
 
     public Ticket(String title, String body, User author, Product product) {
         this.setTitle(title);
         this.setBody(body);
         this.setAuthor(author);
         this.setProduct(product);
+        this.comments = new HashSet<>();
     }
 
     public Ticket() {
@@ -30,11 +34,11 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -83,6 +87,15 @@ public class Ticket {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    @OneToMany(mappedBy = "ticket")
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     @Override

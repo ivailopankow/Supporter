@@ -32,6 +32,8 @@ public class User {
 
     private Set<Ticket> tickets;
 
+    private Set<Comment> comments;
+
     public User(String email, String fullName, String password) {
         this.email = email;
         this.password = password;
@@ -41,6 +43,7 @@ public class User {
         this.products = new HashSet<>();
         this.supportedProducts = new HashSet<>();
         this.tickets = new HashSet<>();
+        this.comments = new HashSet<>();
     }
 
     public User() {    }
@@ -122,6 +125,15 @@ public class User {
 
     public void addRole(Role role) {
         this.roles.add(role);
+    }
+
+    @OneToMany(mappedBy = "author")
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     @Transient

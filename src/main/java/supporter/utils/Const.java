@@ -13,10 +13,12 @@ public class Const {
     public static final String BINDING_MODEL_CREATE_PRODUCT = "productForm";
     public static final String BINDING_MODEL_CATEGORY = "categoryForm";
     public static final String BINDING_MODEL_CREATE_TICKET = "ticketForm";
+    public static final String BINDING_MODEL_CREATE_COMMENT = "commentForm";
     public static final String BINDING_MODEL_RESULT_REGISTER = BINDING_RESULT + BINDING_MODEL_REGISTER;
     public static final String BINDING_MODEL_RESULT_PRODUCT = BINDING_RESULT + BINDING_MODEL_CREATE_PRODUCT;
     public static final String BINDING_MODEL_RESULT_CATEGORY = BINDING_RESULT + BINDING_MODEL_CATEGORY;
     public static final String BINDING_MODEL_RESULT_TICKET = BINDING_RESULT + BINDING_MODEL_CREATE_TICKET;
+    public static final String BINDING_MODEL_RESULT_COMMENT = BINDING_RESULT + BINDING_MODEL_CREATE_COMMENT;
 
     public static final String USER_VIEW_KEY = "user";
     public static final String NOTIFICATION_MESSAGE_VIEW_KEY = "message";
@@ -26,5 +28,7 @@ public class Const {
     public static final String CATEGORY_VIEW_KEY = "category";
     public static final String USERS_VIEW_KEY = "users";
     public static final String ROLES_VIEW_KEY = "roles";
+    public static final String TICKET_VIEW_KEY = "ticket";
+    public static final String NEW_COMMENT_VIEW_KEY = "newComment";
     public static final String SUPPORTED_PRODUCTS = "subscribedProducts";
 }
