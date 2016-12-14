@@ -2,8 +2,8 @@ package supporter.models;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Ivaylo on 12-Nov-16.
@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tickets")
-public class Ticket {
+public class Ticket implements Comparable<Ticket> {
 
     private Long id;
     private String title;
@@ -20,13 +20,14 @@ public class Ticket {
     private Product product;
     private Date date = new Date();
     private Set<Comment> comments;
+    private boolean isDeleted;
 
     public Ticket(String title, String body, User author, Product product) {
         this.setTitle(title);
         this.setBody(body);
         this.setAuthor(author);
         this.setProduct(product);
-        this.comments = new HashSet<>();
+        this.comments = new TreeSet<>();
     }
 
     public Ticket() {
@@ -98,6 +99,27 @@ public class Ticket {
         this.comments = comments;
     }
 
+
+    @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    @Transient
+    private Set<Comment> getNotDeletedComments() {
+        Set<Comment> notDeletedSupportedComments = new TreeSet<>();
+        for (Comment comment : comments) {
+            if (!comment.isDeleted()) {
+                notDeletedSupportedComments.add(comment);
+            }
+        }
+        return notDeletedSupportedComments;
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
@@ -107,5 +129,10 @@ public class Ticket {
                ", author=" + author +
                ", date=" + date +
                '}';
+    }
+
+    @Override
+    public int compareTo(Ticket o) {
+        return this.getDate().compareTo(o.getDate());
     }
 }

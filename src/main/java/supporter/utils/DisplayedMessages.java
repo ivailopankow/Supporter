@@ -10,6 +10,7 @@ public class DisplayedMessages {
     public static final String USER_REGISTER_SUCCESS = "User successfully created";
     public static final String CREATE_PRODUCT_SUCCESS = "Product successfully created";
     public static final String NON_EXISTING_RESOURCE = "Trying to access non-existing resource";
+    public static final String DELETED_ENTITY = "Trying to access deleted resource";
     public static final String EDIT_PRODUCT = "Product successfully edited";
     public static final String DELETE_PRODUCT = "Product successfully deleted";
     public static final String CREATE_CATEGORY_SUCCESS = "Category successfully created";
@@ -19,6 +20,7 @@ public class DisplayedMessages {
     public static final String DELETE_USER = "User successfully deleted";
     public static final String SUBSRIPTION_SUCCESS = "You have successfully subscribed for support";
     public static final String CREATE_TICKET_SUCCESS = "Ticket successfully created";
+    public static final String CREATE_COMMENT_SUCCESS = "Comment added";
     public static String ERROR_IN_FORM = "Please fill the form correctly!";
 
 }

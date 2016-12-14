@@ -1,22 +1,26 @@
 package supporter.models;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Ivaylo on 22-Nov-16.
  */
 @Entity
 @Table(name = "products")
-public class Product {
+public class Product implements Comparable<Product> {
     private Integer id;
     private String title;
     private String content;
     private User producer;
     private Set<User> supportedUsers;
     private Set<Ticket> tickets;
+    private Date date = new Date();
     private Category category;
+    private boolean isDeleted;
 
     public Product() {
     }
@@ -26,8 +30,9 @@ public class Product {
         this.content = content;
         this.producer = producer;
         this.category = category;
-        this.tickets = new HashSet<>();
+        this.tickets = new TreeSet<>();
         this.supportedUsers = new HashSet<>();
+        this.isDeleted = false;
     }
 
     @Id
@@ -96,9 +101,42 @@ public class Product {
         this.category = category;
     }
 
+    @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    private void setDate(Date date) {
+        this.date = date;
+    }
+
     @Transient
     public String getSummary(){
         int endIndex = getContent().length() / 2;
         return getContent().substring(0, endIndex) + "...";
+    }
+
+    @Transient
+    public Set<Ticket> getNotDeletedTickets() {
+        Set<Ticket> notDeletedSupportedTickets = new TreeSet<>();
+        for (Ticket ticket : tickets) {
+            if (!ticket.isDeleted()) {
+                notDeletedSupportedTickets.add(ticket);
+            }
+        }
+        return notDeletedSupportedTickets;
+    }
+
+    @Override
+    public int compareTo(Product o) {
+        return this.getDate().compareTo(o.getDate());
     }
 }

@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by Ivaylo on 12-Nov-16.
@@ -145,5 +146,48 @@ public class User {
     @Transient
     public boolean isProducer(Product product) {
         return Objects.equals(this.getId(), product.getProducer().getId());
+    }
+
+    @Transient
+    private Set<Product> notDeletedProducts(Set<Product> products) {
+        Set<Product> notDeletedSupportedProducts = new HashSet<>();
+        for (Product product : products) {
+            if (!product.isDeleted()) {
+                notDeletedSupportedProducts.add(product);
+            }
+        }
+        return notDeletedSupportedProducts;
+    }
+
+    @Transient
+    public Set<Product> getNotDeletedSupportedProducts() {
+        return notDeletedProducts(supportedProducts);
+    }
+    @Transient
+    public Set<Product> getNotDeletedProducts() {
+        return notDeletedProducts(products);
+    }
+
+
+    @Transient
+    public Set<Ticket> getNotDeletedTickets(Set<Ticket> tickets) {
+        Set<Ticket> notDeletedSupportedTickets = new TreeSet<>();
+        for (Ticket ticket : tickets) {
+            if (!ticket.isDeleted()) {
+                notDeletedSupportedTickets.add(ticket);
+            }
+        }
+        return notDeletedSupportedTickets;
+    }
+
+    @Transient
+    public Set<Comment> getNotDeletedComments(Set<Comment> comments) {
+        Set<Comment> notDeletedSupportedComments = new TreeSet<>();
+        for (Comment comment : comments) {
+            if (!comment.isDeleted()) {
+                notDeletedSupportedComments.add(comment);
+            }
+        }
+        return notDeletedSupportedComments;
     }
 }

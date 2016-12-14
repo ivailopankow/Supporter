@@ -128,7 +128,7 @@ public class UserController extends BaseController{
     @PreAuthorize("isAuthenticated()")
     public String listProducerProducts(Model model) {
         User loggedUser = this.userService.getCurrentLoggedUser();
-        Set<Product> userProducts = loggedUser.getProducts();
+        Set<Product> userProducts = loggedUser.getNotDeletedProducts();
         model.addAttribute(Const.PRODUCTS_VIEW_KEY, userProducts);
 
         return "product/user-list";

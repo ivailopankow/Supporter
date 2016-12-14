@@ -40,7 +40,7 @@
                             <li><a th:href="@{/admin/users/list}">Users</a></li>
                         </ul>
                     </li>
-                    <li>
+                    <li th:if="${!product.isDeleted()}">
                         <a th:href="@{/products/subscribed/tickets/create/{id}(id=${product.id})}" class="btn btn-warning">Create New Ticket</a>
                     </li>
                     <li sec:authorize="isAuthenticated()">
@@ -80,7 +80,10 @@
             <div class="col-md-12">
                 <article>
                     <header>
-                        <h2 th:text="${product.title}">Title
+                        <h2 class="" th:classappend="${product.isDeleted()} ? 'formError' : ''"
+                            th:text="${product.isDeleted()}
+                                    ? ${product.title + ' - DELETED'}
+                                    : ${product.title}">Title
                         </h2>
                     </header>
 

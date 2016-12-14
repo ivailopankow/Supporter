@@ -8,12 +8,13 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "comments")
-public class Comment {
+public class Comment implements Comparable<Comment> {
     private Long id;
     private String content;
     private User author;
     private Ticket ticket;
     private Date date = new Date();
+    private boolean isDeleted;
 
     public Comment(String content, User author, Ticket ticket) {
         this.content = content;
@@ -69,5 +70,20 @@ public class Comment {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+
+    @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    @Override
+    public int compareTo(Comment other) {
+        return this.getDate().compareTo(other.getDate());
     }
 }

@@ -101,8 +101,18 @@ public class TicketsController extends  BaseController{
         }
 
         Ticket ticket = this.ticketService.findById(id);
+//        if (alreadyDeleted(ticket, redirectAttributes)){
+//            return "redirect:/products/subscribed/tickets/create/" + currentProductId;
+//        }
         model.addAttribute(Const.TICKET_VIEW_KEY, ticket);
         return "product/ticket/details";
     }
 
+    private boolean alreadyDeleted(Ticket ticket, RedirectAttributes redirectAttributes) {
+        if (ticket.isDeleted()) {
+            super.showNonExistingResourceError(redirectAttributes);
+            return true;
+        }
+        return false;
+    }
 }

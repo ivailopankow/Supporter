@@ -44,7 +44,13 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     public Set<Product> getProducts() {
-        return products;
+        Set<Product> notDeletedSupportedProducts = new HashSet<>();
+        for (Product product : products) {
+            if (!product.isDeleted()) {
+                notDeletedSupportedProducts.add(product);
+            }
+        }
+        return notDeletedSupportedProducts;
     }
 
     public void setProducts(Set<Product> products) {

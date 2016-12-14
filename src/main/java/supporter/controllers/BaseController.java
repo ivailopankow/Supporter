@@ -10,7 +10,7 @@ import supporter.utils.NotificationMessage;
  */
 public class BaseController {
 
-    public NotificationMessage generateNotificationMessage(String text, NotificationMessage.Type type) {
+    protected NotificationMessage generateNotificationMessage(String text, NotificationMessage.Type type) {
         switch (type) {
             case ERROR:
                 return NotificationMessage.getErrorNotificationMessage(text);
@@ -21,9 +21,15 @@ public class BaseController {
         }
     }
 
-    public void showNonExistingResourceError(RedirectAttributes redirectAttributes) {
+    protected void showNonExistingResourceError(RedirectAttributes redirectAttributes) {
         String messageText = DisplayedMessages.NON_EXISTING_RESOURCE;
         NotificationMessage message = generateNotificationMessage(messageText, NotificationMessage.Type.ERROR);
+        redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
+    }
+
+    protected void showDeletedEntityError(RedirectAttributes redirectAttributes) {
+        String msg = DisplayedMessages.DELETED_ENTITY;
+        NotificationMessage message = generateNotificationMessage(msg, NotificationMessage.Type.ERROR);
         redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
     }
 }

@@ -24,7 +24,10 @@
 
                     <th:block th:each="product : ${subscribedProducts}">
                         <tr>
-                            <td th:text="${product.title}"></td>
+                            <td class="" th:classappend="${product.isDeleted()} ? 'formError' : ''"
+                                    th:text="${product.isDeleted()}
+                                    ? ${product.title + ' - DELETED'}
+                                    : ${product.title}"></td>
                             <td th:text="${product.producer.fullName}"></td>
                             <td>
                                 <a th:href="@{/products/subscribed/view/{id}(id=${product.id})}">View</a>

@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import supporter.models.Category;
-import supporter.models.Product;
-import supporter.models.User;
+import supporter.models.*;
 import supporter.models.binding.ProductBindingModel;
 import supporter.services.category.CategoryService;
 import supporter.services.product.ProductService;
@@ -26,6 +24,7 @@ import supporter.utils.NotificationMessage;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Ivaylo on 22-Nov-16.
@@ -105,6 +104,10 @@ public class ProductController extends BaseController{
         }
         Product product = productService.findById(productId);
 
+        if (alreadyDeleted(product, redirectAttributes)) {
+            return "redirect:/product/create";
+        }
+
         model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
 
         return "product/details";
@@ -121,6 +124,9 @@ public class ProductController extends BaseController{
 
         Product product = this.productService.findById(productId);
         List<Category> categories = this.categoryService.findAll(true);
+        if (alreadyDeleted(product, redirectAttributes)){
+            return "redirect:/product/create";
+        }
         model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
         model.addAttribute(Const.CATEGORIES_VIEW_KEY, categories);
         return "product/edit";
@@ -139,6 +145,9 @@ public class ProductController extends BaseController{
 
         Category category = this.categoryService.findById(bindingModel.getCategoryId());
         Product product = this.productService.findById(productId);
+        if (alreadyDeleted(product, redirectAttributes)){
+            return "redirect:/product/create";
+        }
         product.setTitle(bindingModel.getTitle());
         product.setContent(bindingModel.getContent());
         product.setCategory(category);
@@ -159,6 +168,11 @@ public class ProductController extends BaseController{
         }
 
         Product product = this.productService.findById(productId);
+
+        if (alreadyDeleted(product, redirectAttributes)){
+            return "redirect:/product/create";
+        }
+
         model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
         return "product/delete";
     }
@@ -171,10 +185,30 @@ public class ProductController extends BaseController{
             return "redirect:/product/create";
         }
 
-        this.productService.deleteById(productId);
+        Product deleteCandidate  = this.productService.findById(productId);
+        Set<Ticket> tickets = deleteCandidate.getTickets();
+
+        for (Ticket ticket : tickets) {
+            ticket.setDeleted(true);
+            for (Comment comment : ticket.getComments()) {
+                comment.setDeleted(true);
+            }
+        }
+
+        deleteCandidate.setDeleted(true);
+        this.productService.edit(deleteCandidate);
+
         String text = DisplayedMessages.DELETE_PRODUCT;
         NotificationMessage message = super.generateNotificationMessage(text, NotificationMessage.Type.INFO);
         redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
         return "redirect:/";
+    }
+
+    private boolean alreadyDeleted(Product product, RedirectAttributes redirectAttributes) {
+        if (product.isDeleted()) {
+            super.showNonExistingResourceError(redirectAttributes);
+            return true;
+        }
+        return false;
     }
 }

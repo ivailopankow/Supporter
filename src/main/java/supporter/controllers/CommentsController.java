@@ -41,7 +41,8 @@ public class CommentsController extends BaseController{
     }
 
     @GetMapping("/{ticketId}")
-    public String addNewComment(final @PathVariable Long ticketId, final Model model, final RedirectAttributes redirectAttributes) {
+    public String addNewComment(@ModelAttribute(Const.BINDING_MODEL_CREATE_COMMENT) final CommentBindingModel commentBindingModel,
+                                final @PathVariable Long ticketId, final Model model, final RedirectAttributes redirectAttributes) {
         if (!this.ticketService.exists(ticketId)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/products/subscribed/tickets/create/" + ticketId;
@@ -49,6 +50,7 @@ public class CommentsController extends BaseController{
 
         Ticket ticket = this.ticketService.findById(ticketId);
         model.addAttribute(Const.TICKET_VIEW_KEY, ticket);
+        model.addAttribute(Const.BINDING_MODEL_CREATE_COMMENT, commentBindingModel);
         model.addAttribute(Const.NEW_COMMENT_VIEW_KEY, "new ticket");
         return "product/ticket/details";
     }
@@ -78,7 +80,7 @@ public class CommentsController extends BaseController{
         user.getComments().add(comment);
         this.commentService.create(comment);
 
-        String notificationMessage = DisplayedMessages.CREATE_TICKET_SUCCESS;
+        String notificationMessage = DisplayedMessages.CREATE_COMMENT_SUCCESS;
         NotificationMessage message = super.generateNotificationMessage(notificationMessage, NotificationMessage.Type.INFO);
         redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
 
