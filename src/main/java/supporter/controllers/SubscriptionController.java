@@ -47,6 +47,10 @@ public class SubscriptionController extends BaseController{
             return "error/403";
         }
 
+        if (product.getSupportedUsers().contains(currentUser)) {
+            model.addAttribute(Const.PRODUCT_USER_RELATION_VIEW_KEY, "related");
+        }
+
         model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
         return "product/subscription/subscribe";
     }

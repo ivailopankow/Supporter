@@ -8,10 +8,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import supporter.models.Comment;
+import supporter.models.Product;
 import supporter.models.Ticket;
 import supporter.models.User;
 import supporter.models.binding.CommentBindingModel;
 import supporter.services.comment.CommentService;
+import supporter.services.product.ProductService;
 import supporter.services.ticket.TicketService;
 import supporter.services.user.UserService;
 import supporter.utils.Const;
@@ -34,21 +36,27 @@ public class CommentsController extends BaseController{
     private UserService userService;
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private ProductService productService;
 
     @ModelAttribute(Const.BINDING_MODEL_CREATE_COMMENT)
     public CommentBindingModel newTicketBindingModel() {
         return new CommentBindingModel();
     }
 
-    @GetMapping("/{ticketId}")
+    @GetMapping("/{productId}/{ticketId}")
     public String addNewComment(@ModelAttribute(Const.BINDING_MODEL_CREATE_COMMENT) final CommentBindingModel commentBindingModel,
-                                final @PathVariable Long ticketId, final Model model, final RedirectAttributes redirectAttributes) {
-        if (!this.ticketService.exists(ticketId)) {
+                                final @PathVariable Integer productId,
+                                final @PathVariable Long ticketId,
+                                final Model model, final RedirectAttributes redirectAttributes) {
+        if (!this.ticketService.exists(ticketId) || !this.productService.exists(productId)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/products/subscribed/tickets/create/" + ticketId;
         }
 
         Ticket ticket = this.ticketService.findById(ticketId);
+        Product product = this.productService.findById(productId);
+        model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
         model.addAttribute(Const.TICKET_VIEW_KEY, ticket);
         model.addAttribute(Const.BINDING_MODEL_CREATE_COMMENT, commentBindingModel);
         model.addAttribute(Const.NEW_COMMENT_VIEW_KEY, "new ticket");

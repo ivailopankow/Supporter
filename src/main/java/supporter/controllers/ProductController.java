@@ -97,12 +97,18 @@ public class ProductController extends BaseController{
             return "redirect:/product/create";
         }
 
+        Product product = productService.findById(productId);
         if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)){
             UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User entityUser = this.userService.findByEmail(principal.getUsername());
             model.addAttribute(Const.USER_VIEW_KEY, entityUser);
+            if (!product.getSupportedUsers().contains(entityUser)) {
+                model.addAttribute("showSubscribe", "subscribe");
+            }
+        } else {
+            model.addAttribute("showSubscribe", "subscribe");
         }
-        Product product = productService.findById(productId);
+
 
         if (alreadyDeleted(product, redirectAttributes)) {
             return "redirect:/product/create";
@@ -210,5 +216,17 @@ public class ProductController extends BaseController{
             return true;
         }
         return false;
+    }
+
+    private boolean isRelated(Product product, final Model model) {
+
+        if ((SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+            return false;
+        } else {
+            UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            User entityUser = this.userService.findByEmail(principal.getUsername());
+            model.addAttribute(Const.USER_VIEW_KEY, entityUser);
+            return product.getSupportedUsers().contains(entityUser) || product.getProducer() == entityUser;
+        }
     }
 }

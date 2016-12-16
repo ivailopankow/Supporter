@@ -93,26 +93,20 @@ public class TicketsController extends  BaseController{
         return "redirect:/products/subscribed/view/" + productId;
     }
 
-    @GetMapping("/view/{id}")
-    public String details (final @PathVariable Long id, final RedirectAttributes redirectAttributes, final Model model) {
-        if (!this.ticketService.exists(id)) {
+    @GetMapping("/view/{productId}/{id}")
+    public String details (final @PathVariable Integer productId,
+                           final @PathVariable Long id,
+                           final RedirectAttributes redirectAttributes,
+                           final Model model) {
+        if (!this.ticketService.exists(id) || !this.productService.exists(productId)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/products/subscribed/tickets/create/" + currentProductId;
         }
 
+        Product product = this.productService.findById(productId);
         Ticket ticket = this.ticketService.findById(id);
-//        if (alreadyDeleted(ticket, redirectAttributes)){
-//            return "redirect:/products/subscribed/tickets/create/" + currentProductId;
-//        }
+        model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
         model.addAttribute(Const.TICKET_VIEW_KEY, ticket);
         return "product/ticket/details";
-    }
-
-    private boolean alreadyDeleted(Ticket ticket, RedirectAttributes redirectAttributes) {
-        if (ticket.isDeleted()) {
-            super.showNonExistingResourceError(redirectAttributes);
-            return true;
-        }
-        return false;
     }
 }

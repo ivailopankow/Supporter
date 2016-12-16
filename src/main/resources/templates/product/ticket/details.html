@@ -43,8 +43,8 @@
                             <li><a th:href="@{/admin/users/list}">Users</a></li>
                         </ul>
                     </li>
-                    <li>
-                        <a th:href="@{/products/subscribed/tickets/view/comment/{id}(id=${ticket.id})}"
+                    <li th:if="${!product.isDeleted()}">
+                        <a th:href="@{'/products/subscribed/tickets/view/comment/' + ${product.id} + '/' + ${ticket.id}}"
                            class="btn btn-warning">Create New Comment</a>
                     </li>
                     <li sec:authorize="isAuthenticated()">
@@ -86,7 +86,10 @@
             <div class="col-md-12">
                 <article>
                     <header>
-                        <h2 th:text="${ticket.title}">Title
+                        <h2 class="" th:classappend="${product.isDeleted()} ? 'formError' : ''"
+                            th:text="${product.isDeleted()}
+                                    ? ${ticket.title + ' - ' +product.title +' (DELETED)'}
+                                    : ${ticket.title}">Title
                         </h2>
                         <label for="ticket-author">Author: </label>
                         <div id="ticket-author" th:text="${ticket.author.fullName}">
