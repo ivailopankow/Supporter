@@ -26,6 +26,7 @@ import supporter.utils.NotificationMessage;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Ivaylo on 22-Nov-16.
@@ -51,15 +52,18 @@ public class UserController extends BaseController{
     }
 
     @GetMapping("/register")
-    public String register() {
+    public String register(final Model model) {
+        super.loadCategories(model);
         return "user/register";
     }
 
     @PostMapping("/register")
     public String registerProcess(@Valid @ModelAttribute(Const.BINDING_MODEL_REGISTER) final UserBindingModel userBindingModel,
                                   final BindingResult bindingResult,
-                                  final RedirectAttributes redirectAttributes){
+                                  final RedirectAttributes redirectAttributes,
+                                  final Model model){
 
+        super.loadCategories(model);
         if (bindingResult.hasErrors()) {
             String messageText = DisplayedMessages.ERROR_IN_FORM;
             NotificationMessage message = super.generateNotificationMessage(messageText, NotificationMessage.Type.ERROR);
@@ -98,13 +102,16 @@ public class UserController extends BaseController{
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login(final Model model){
+        super.loadCategories(model);
         return "user/login";
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage (HttpServletRequest request, HttpServletResponse response,
-                              RedirectAttributes redirectAttributes) {
+                              RedirectAttributes redirectAttributes,
+                              final Model model) {
+        super.loadCategories(model);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null) {
@@ -119,6 +126,7 @@ public class UserController extends BaseController{
     @GetMapping("/profile")
     @PreAuthorize("isAuthenticated()")
     public String profilePage(Model model){
+        super.loadCategories(model);
         User user = this.userService.getCurrentLoggedUser();
         model.addAttribute(Const.USER_VIEW_KEY, user);
         return "user/profile";
@@ -127,8 +135,12 @@ public class UserController extends BaseController{
     @GetMapping("/products/supporting/list")
     @PreAuthorize("isAuthenticated()")
     public String listProducerProducts(Model model) {
+        super.loadCategories(model);
         User loggedUser = this.userService.getCurrentLoggedUser();
         Set<Product> userProducts = loggedUser.getNotDeletedProducts();
+        userProducts = userProducts.stream()
+                .sorted()
+                .collect(Collectors.toSet());
         model.addAttribute(Const.PRODUCTS_VIEW_KEY, userProducts);
 
         return "product/user-list";

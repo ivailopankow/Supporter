@@ -38,15 +38,17 @@ public class CategoryController extends BaseController{
     }
 
     @GetMapping("/create")
-    public String create() {
+    public String create(final Model model) {
+        super.loadCategories(model);
         return "admin/category/create";
     }
 
     @PostMapping("/create")
     public String createProcess(@Valid @ModelAttribute(Const.BINDING_MODEL_CATEGORY) final CategoryBindingModel categoryBindingModel,
                                 final BindingResult bindingResult,
-                                final RedirectAttributes redirectAttributes) {
+                                final RedirectAttributes redirectAttributes, final Model model) {
 
+        super.loadCategories(model);
         if (bindingResult.hasErrors()) {
             String messageText = DisplayedMessages.ERROR_IN_FORM;
             NotificationMessage message = super.generateNotificationMessage(messageText, NotificationMessage.Type.ERROR);
@@ -69,6 +71,7 @@ public class CategoryController extends BaseController{
 
     @GetMapping("/edit/{id}")
     public String edit(Model model, final @PathVariable Integer id, final RedirectAttributes redirectAttributes) {
+        super.loadCategories(model);
         if (!this.categoryService.exists(id)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/admin/categories/create";
@@ -80,7 +83,8 @@ public class CategoryController extends BaseController{
 
     @PostMapping("/edit/{id}")
     public String editProcess(final @PathVariable Integer id, final CategoryBindingModel categoryBindingModel,
-                              final RedirectAttributes redirectAttributes) {
+                              final RedirectAttributes redirectAttributes, final Model model) {
+        super.loadCategories(model);
         if (!this.categoryService.exists(id)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/admin/categories/create";
@@ -100,6 +104,7 @@ public class CategoryController extends BaseController{
 
     @GetMapping("/delete/{id}")
     public String delete(Model model, final @PathVariable Integer id, final RedirectAttributes redirectAttributes) {
+        super.loadCategories(model);
         if (!this.categoryService.exists(id)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/admin/categories/create";
@@ -111,7 +116,8 @@ public class CategoryController extends BaseController{
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteProcess(final @PathVariable Integer id, final RedirectAttributes redirectAttributes) {
+    public String deleteProcess(final @PathVariable Integer id, final RedirectAttributes redirectAttributes, final Model model) {
+        super.loadCategories(model);
         if (!this.categoryService.exists(id)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/admin/categories/create";

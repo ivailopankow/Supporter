@@ -1,14 +1,28 @@
 package supporter.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import supporter.models.Category;
+import supporter.services.category.CategoryService;
 import supporter.utils.Const;
 import supporter.utils.DisplayedMessages;
 import supporter.utils.NotificationMessage;
+
+import java.util.List;
 
 /**
  * Created by Ivaylo on 01-Dec-16.
  */
 public class BaseController {
+
+    @Autowired
+    private CategoryService categoryService;
+
+    protected void loadCategories(final Model model) {
+        List<Category> categories = categoryService.findAll(true);
+        model.addAttribute(Const.CATEGORIES_VIEW_KEY, categories);
+    }
 
     protected NotificationMessage generateNotificationMessage(String text, NotificationMessage.Type type) {
         switch (type) {

@@ -47,6 +47,7 @@ public class TicketsController extends  BaseController{
                          final RedirectAttributes redirectAttributes,
                          @ModelAttribute(Const.BINDING_MODEL_CREATE_TICKET) final TicketBindingModel ticketBindingModel,
                          Model model) {
+        super.loadCategories(model);
         if (!this.productService.exists(productId)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/products/subscribed/list";
@@ -61,8 +62,10 @@ public class TicketsController extends  BaseController{
     public String createProcess(@Valid @ModelAttribute(Const.BINDING_MODEL_CREATE_TICKET) final TicketBindingModel ticketBindingModel,
                                 final BindingResult bindingResult,
                                 final RedirectAttributes redirectAttributes,
-                                @PathVariable Integer productId) {
+                                @PathVariable Integer productId,
+                                final Model model) {
 
+        super.loadCategories(model);
         if (!this.productService.exists(productId)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/products/subscribed/list";
@@ -98,6 +101,7 @@ public class TicketsController extends  BaseController{
                            final @PathVariable Long id,
                            final RedirectAttributes redirectAttributes,
                            final Model model) {
+        super.loadCategories(model);
         if (!this.ticketService.exists(id) || !this.productService.exists(productId)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/products/subscribed/tickets/create/" + currentProductId;

@@ -18,7 +18,7 @@ import java.util.Set;
  * Created by Ivaylo on 30-Oct-16.
  */
 @Controller
-public class HomeController {
+public class HomeController extends BaseController{
 
     @Autowired
     private CategoryService categoryService;

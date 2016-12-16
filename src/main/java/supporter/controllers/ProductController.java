@@ -49,6 +49,7 @@ public class ProductController extends BaseController{
     @PreAuthorize("isAuthenticated()")
     @SuppressWarnings("unused")
     public String create(Model model) {
+        super.loadCategories(model);
         List<Category> categories = this.categoryService.findAll(true);
         model.addAttribute(Const.CATEGORIES_VIEW_KEY, categories);
         return "product/create";
@@ -59,8 +60,9 @@ public class ProductController extends BaseController{
     @SuppressWarnings("unused")
     public String createProcess(@Valid @ModelAttribute(Const.BINDING_MODEL_CREATE_PRODUCT) final ProductBindingModel productBindingModel,
                                 final BindingResult bindingResult,
-                                final RedirectAttributes redirectAttributes) {
+                                final RedirectAttributes redirectAttributes, final Model model) {
 
+        super.loadCategories(model);
         if (bindingResult.hasErrors()) {
             // TODO: 03-Dec-16 extract this logic in BaseController
             String messageText = DisplayedMessages.ERROR_IN_FORM;
@@ -92,6 +94,7 @@ public class ProductController extends BaseController{
 
     @GetMapping("/product/{productId}")
     public String details(@PathVariable int productId, Model model, RedirectAttributes redirectAttributes){
+        super.loadCategories(model);
         if (!this.productService.exists(productId)){
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/product/create";
@@ -122,6 +125,7 @@ public class ProductController extends BaseController{
     @GetMapping("/product/edit/{productId}")
     @PreAuthorize("isAuthenticated()")
     public String edit(@PathVariable int productId, Model model, RedirectAttributes redirectAttributes) {
+        super.loadCategories(model);
 
         if (!this.productService.exists(productId)){
             super.showNonExistingResourceError(redirectAttributes);
@@ -142,8 +146,10 @@ public class ProductController extends BaseController{
     @PreAuthorize("isAuthenticated()")
     public String editProcess(final @PathVariable Integer productId,
                               final ProductBindingModel bindingModel,
-                              final RedirectAttributes redirectAttributes) {
+                              final RedirectAttributes redirectAttributes,
+                              final Model model) {
 
+        super.loadCategories(model);
         if (!this.productService.exists(productId)){
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/product/create";
@@ -168,6 +174,7 @@ public class ProductController extends BaseController{
     @GetMapping("product/delete/{productId}")
     @PreAuthorize("isAuthenticated()")
     public String delete(Model model, final @PathVariable Integer productId, final RedirectAttributes redirectAttributes) {
+        super.loadCategories(model);
         if (!this.productService.exists(productId)){
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/product/create";
@@ -185,7 +192,8 @@ public class ProductController extends BaseController{
 
     @PostMapping("product/delete/{productId}")
     @PreAuthorize("isAuthenticated()")
-    public String deleteProcess(final @PathVariable Integer productId, final RedirectAttributes redirectAttributes){
+    public String deleteProcess(final @PathVariable Integer productId, final RedirectAttributes redirectAttributes, final Model model){
+        super.loadCategories(model);
         if (!this.productService.exists(productId)){
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/product/create";

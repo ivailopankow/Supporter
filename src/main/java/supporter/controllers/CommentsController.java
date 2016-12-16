@@ -49,6 +49,7 @@ public class CommentsController extends BaseController{
                                 final @PathVariable Integer productId,
                                 final @PathVariable Long ticketId,
                                 final Model model, final RedirectAttributes redirectAttributes) {
+        super.loadCategories(model);
         if (!this.ticketService.exists(ticketId) || !this.productService.exists(productId)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/products/subscribed/tickets/create/" + ticketId;
@@ -67,6 +68,7 @@ public class CommentsController extends BaseController{
     public String addNewCommentProcess(@Valid @ModelAttribute(Const.BINDING_MODEL_CREATE_COMMENT) final CommentBindingModel commentBindingModel,
                                        final @PathVariable Long ticketId, final Model model, final BindingResult bindingResult,
                                        final RedirectAttributes redirectAttributes) {
+        super.loadCategories(model);
         if (!this.ticketService.exists(ticketId)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/products/subscribed/tickets/create/" + ticketId;

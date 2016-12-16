@@ -35,6 +35,7 @@ public class SubscriptionController extends BaseController{
 
     @GetMapping("/{productId}")
     public String subscribe(Model model, final @PathVariable Integer productId, final RedirectAttributes redirectAttributes){
+        super.loadCategories(model);
         if (!this.productService.exists(productId)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/";
@@ -56,7 +57,8 @@ public class SubscriptionController extends BaseController{
     }
 
     @PostMapping("/{productId}")
-    public String subscribeProcess(final @PathVariable Integer productId, final RedirectAttributes redirectAttributes) {
+    public String subscribeProcess(final @PathVariable Integer productId, final RedirectAttributes redirectAttributes, final Model model) {
+        super.loadCategories(model);
         if (!this.productService.exists(productId)) {
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/";
@@ -75,6 +77,7 @@ public class SubscriptionController extends BaseController{
 
     @GetMapping("/list")
     public String showAllSubscribedProducts(Model model){
+        super.loadCategories(model);
         User user = this.userService.getCurrentLoggedUser();
         Set<Product> subscribedProducts = user.getSupportedProducts();
         model.addAttribute(Const.SUPPORTED_PRODUCTS, subscribedProducts);
