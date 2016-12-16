@@ -123,7 +123,7 @@
                                     <td th:text="${comment.content}"></td>
                                 </tr>
                                 <tr>
-                                    <td th:text="comment.date"></td>
+                                    <td th:text="'Posted on: ' + ${comment.getDateAsString()}"></td>
                                 </tr>
                             </th:block>
 

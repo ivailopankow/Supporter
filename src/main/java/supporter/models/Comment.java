@@ -1,6 +1,8 @@
 package supporter.models;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -80,6 +82,13 @@ public class Comment implements Comparable<Comment> {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    @Transient
+    public String getDateAsString() {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+
+        return df.format(getDate());
     }
 
     @Override
