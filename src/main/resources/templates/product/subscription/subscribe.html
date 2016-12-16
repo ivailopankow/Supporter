@@ -30,11 +30,15 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" th:if="${userProductRelated == null}">
                         <div class="col-sm-4 col-sm-offset-4">
                             <a class="btn btn-default" th:href="@{/product/{id}(id=${product.id})}">Cancel</a>
                             <input type="submit" class="btn btn-success" value="Subscribe"/>
                         </div>
+                    </div>
+                    <div class="col-sm-4 col-sm-offset-4" th:if="userProductRelated">
+                        <a class="btn btn-default" th:href="@{/products/subscribed/view/{id}(id=${product.id})}">ALREADY SUBSCRIBED</a>
+                        <!--<a th:href="@{/products/subscribed/view/{id}(id=${product.id})}">View</a>-->
                     </div>
                 </fieldset>
             </form>

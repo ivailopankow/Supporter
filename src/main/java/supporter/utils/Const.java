@@ -31,5 +31,5 @@ public class Const {
     public static final String TICKET_VIEW_KEY = "ticket";
     public static final String NEW_COMMENT_VIEW_KEY = "newComment";
     public static final String SUPPORTED_PRODUCTS = "subscribedProducts";
-    public static final String PRODUCT_USER_RELATION_VIEW_KEY = "userProductNRelated";
+    public static final String PRODUCT_USER_RELATION_VIEW_KEY = "userProductRelated";
 }
