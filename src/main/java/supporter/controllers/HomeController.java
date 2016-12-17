@@ -11,8 +11,10 @@ import supporter.models.Product;
 import supporter.services.category.CategoryService;
 import supporter.utils.Const;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Ivaylo on 30-Oct-16.
@@ -39,8 +41,10 @@ public class HomeController extends BaseController{
 
         Category category = this.categoryService.findById(categoryId);
         Set<Product> products = category.getProducts();
+        List<Product> productList = super.getSortedProducts(products);
+
         model.addAttribute(Const.CATEGORY_VIEW_KEY, category);
-        model.addAttribute(Const.PRODUCTS_VIEW_KEY, products);
+        model.addAttribute(Const.PRODUCTS_VIEW_KEY, productList);
         return "home/category-products-list";
     }
 

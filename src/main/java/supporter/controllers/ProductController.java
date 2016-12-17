@@ -105,12 +105,14 @@ public class ProductController extends BaseController{
             UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User entityUser = this.userService.findByEmail(principal.getUsername());
             model.addAttribute(Const.USER_VIEW_KEY, entityUser);
-            if (!product.getSupportedUsers().contains(entityUser)) {
+            if (product.getSupportedUsers().size() > 0
+                    && !product.getSupportedUsers().contains(entityUser)) {
                 model.addAttribute("showSubscribe", "subscribe");
             }
 
             if (product.getProducer() == entityUser) {
                 model.addAttribute(Const.USER_VIEW_KEY, entityUser);
+                model.asMap().remove("showSubscribe");
             }
 
         } else {

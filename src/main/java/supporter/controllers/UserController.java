@@ -25,8 +25,8 @@ import supporter.utils.NotificationMessage;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created by Ivaylo on 22-Nov-16.
@@ -138,11 +138,9 @@ public class UserController extends BaseController{
         super.loadCategories(model);
         User loggedUser = this.userService.getCurrentLoggedUser();
         Set<Product> userProducts = loggedUser.getProducts();
-        userProducts = userProducts.stream()
-                .filter(p -> !p.isDeleted())
-                .sorted()
-                .collect(Collectors.toSet());
-        model.addAttribute(Const.PRODUCTS_VIEW_KEY, userProducts);
+        List<Product> productList = super.getSortedProducts(userProducts);
+
+        model.addAttribute(Const.PRODUCTS_VIEW_KEY, productList);
 
         return "product/user-list";
     }

@@ -17,6 +17,7 @@ import supporter.utils.Const;
 import supporter.utils.DisplayedMessages;
 import supporter.utils.NotificationMessage;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
 
 /**
@@ -34,7 +35,7 @@ public class SubscriptionController extends BaseController{
     private UserService userService;
 
     @GetMapping("/{productId}")
-    public String subscribe(Model model, final @PathVariable Integer productId, final RedirectAttributes redirectAttributes){
+    public String subscribe(HttpServletRequest request, Model model, final @PathVariable Integer productId, final RedirectAttributes redirectAttributes){
         super.loadCategories(model);
         if (!this.productService.exists(productId)) {
             super.showNonExistingResourceError(redirectAttributes);
@@ -45,11 +46,16 @@ public class SubscriptionController extends BaseController{
         User currentUser = this.userService.getCurrentLoggedUser();
 
         if (product.getProducer().getId().equals(currentUser.getId())) {
-            return "error/403";
+            model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
+            model.addAttribute(Const.USER_VIEW_KEY, currentUser);
+            String redirect = request.getContextPath() + "/product/" + product.getId();
+            return "redirect:" + redirect;
         }
 
         if (product.getSupportedUsers().contains(currentUser)) {
             model.addAttribute(Const.PRODUCT_USER_RELATION_VIEW_KEY, "related");
+        } else {
+            model.addAttribute("userProductNotRelated", "not related");
         }
 
         model.addAttribute(Const.PRODUCT_VIEW_KEY, product);

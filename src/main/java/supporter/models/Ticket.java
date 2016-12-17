@@ -21,6 +21,7 @@ public class Ticket implements Comparable<Ticket> {
     private Date date = new Date();
     private Set<Comment> comments;
     private boolean isDeleted;
+    private boolean seen;
 
     public Ticket(String title, String body, User author, Product product) {
         this.setTitle(title);
@@ -107,6 +108,15 @@ public class Ticket implements Comparable<Ticket> {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    @Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+    public boolean isSeen() {
+        return seen;
+    }
+
+    public void setSeen(boolean seen) {
+        this.seen = seen;
     }
 
     @Transient

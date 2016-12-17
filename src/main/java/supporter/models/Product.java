@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * Created by Ivaylo on 22-Nov-16.
@@ -126,13 +127,20 @@ public class Product implements Comparable<Product> {
 
     @Transient
     public Set<Ticket> getNotDeletedTickets() {
-        Set<Ticket> notDeletedSupportedTickets = new TreeSet<>();
+        Set<Ticket> notDeletedSupportedTickets = new HashSet<>();
         for (Ticket ticket : tickets) {
             if (!ticket.isDeleted()) {
                 notDeletedSupportedTickets.add(ticket);
             }
         }
         return notDeletedSupportedTickets;
+    }
+
+    @Transient
+    public Set<Ticket> getUnseenTickets() {
+        return this.getTickets().stream()
+                .filter(t -> !t.isSeen())
+                .collect(Collectors.toSet());
     }
 
     @Override

@@ -24,11 +24,7 @@
                         Producer's name
                     </small>
 
-                    <div id="tickets" sec:authorize="isAuthenticated()" th:if="${user.isProducer(product)}">
-                        <a th:href="@{/products/subscribed/view/{id}(id=${product.id})}">View</a>
-                    </div>
-
-                    <div class="row">
+                    <div class="row" th:if="${user !=null AND user.isProducer(product)}">
                         <table class="table table-striped table-hover ">
                             <thead>
                             <tr>

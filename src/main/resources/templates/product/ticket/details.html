@@ -123,14 +123,14 @@
                                     <td th:text="${comment.content}"></td>
                                 </tr>
                                 <tr>
-                                    <td th:text="'Posted on: ' + ${comment.getDateAsString()}"></td>
+                                    <td th:text="'Posted on: ' + ${comment.getDateAsString()} + ' by ' + ${comment.author.fullName}"></td>
                                 </tr>
                             </th:block>
 
                             </tbody>
                         </table>
                         <form class="form-group" th:object="${commentForm}" th:if="${newComment}"
-                              th:action="@{/products/subscribed/tickets/view/comment/create/{id}(id=${ticket.id})}"
+                              th:action="@{'/products/subscribed/tickets/view/comment/' + ticket.product.id  +'/'+ ticket.id}"
                               method="post">
                             <!--<label for="ticket_content" class="col-sm-4 control-label">Content</label>-->
                             <div class="row">

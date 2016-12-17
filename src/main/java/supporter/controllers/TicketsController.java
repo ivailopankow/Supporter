@@ -93,7 +93,7 @@ public class TicketsController extends  BaseController{
         NotificationMessage message = super.generateNotificationMessage(notificationMessage, NotificationMessage.Type.INFO);
         redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
 
-        return "redirect:/products/subscribed/view/" + productId;
+        return "redirect:/products/subscribed/view/" + productId +"/" + ticket.getId();
     }
 
     @GetMapping("/view/{productId}/{id}")
