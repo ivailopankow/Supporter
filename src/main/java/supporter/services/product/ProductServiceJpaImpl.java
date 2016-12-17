@@ -6,6 +6,7 @@ import supporter.models.Product;
 import supporter.repositories.ProductRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Ivaylo on 26-Nov-16.
@@ -17,8 +18,14 @@ public class ProductServiceJpaImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public List<Product> findAll(boolean sorted) {
+        List<Product> result = productRepository.findAll();
+        if (sorted) {
+            return result.stream()
+                    .sorted()
+                    .collect(Collectors.toList());
+        }
+        return result;
     }
 
     @Override

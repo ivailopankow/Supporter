@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Ivaylo on 26-Nov-16.
  */
 public interface ProductService {
-    List<Product> findAll();
+    List<Product> findAll(boolean sorted);
 
     void create(Product product);
 

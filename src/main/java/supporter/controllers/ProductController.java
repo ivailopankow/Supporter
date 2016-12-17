@@ -108,6 +108,11 @@ public class ProductController extends BaseController{
             if (!product.getSupportedUsers().contains(entityUser)) {
                 model.addAttribute("showSubscribe", "subscribe");
             }
+
+            if (product.getProducer() == entityUser) {
+                model.addAttribute(Const.USER_VIEW_KEY, entityUser);
+            }
+
         } else {
             model.addAttribute("showSubscribe", "subscribe");
         }

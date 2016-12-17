@@ -137,6 +137,7 @@ public class Product implements Comparable<Product> {
 
     @Override
     public int compareTo(Product o) {
+        System.out.println(this.getDate().compareTo(o.getDate()));
         return this.getDate().compareTo(o.getDate());
     }
 }

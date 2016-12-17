@@ -137,8 +137,9 @@ public class UserController extends BaseController{
     public String listProducerProducts(Model model) {
         super.loadCategories(model);
         User loggedUser = this.userService.getCurrentLoggedUser();
-        Set<Product> userProducts = loggedUser.getNotDeletedProducts();
+        Set<Product> userProducts = loggedUser.getProducts();
         userProducts = userProducts.stream()
+                .filter(p -> !p.isDeleted())
                 .sorted()
                 .collect(Collectors.toSet());
         model.addAttribute(Const.PRODUCTS_VIEW_KEY, userProducts);

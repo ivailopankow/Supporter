@@ -32,6 +32,7 @@ public class HomeController extends BaseController{
 
     @GetMapping("/category/{categoryId}")
     public String showCategoryProducts(Model model, @PathVariable Integer categoryId) {
+        super.loadCategories(model);
         if (!this.categoryService.exists(categoryId)) {
             return "redirect:/";
         }
