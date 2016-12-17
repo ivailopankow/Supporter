@@ -18,6 +18,7 @@ import supporter.utils.DisplayedMessages;
 import supporter.utils.NotificationMessage;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -86,7 +87,8 @@ public class SubscriptionController extends BaseController{
         super.loadCategories(model);
         User user = this.userService.getCurrentLoggedUser();
         Set<Product> subscribedProducts = user.getSupportedProducts();
-        model.addAttribute(Const.SUPPORTED_PRODUCTS, subscribedProducts);
+        List<Product> productList = super.getSortedProducts(subscribedProducts);
+        model.addAttribute(Const.SUPPORTED_PRODUCTS, productList);
         return "product/subscription/list";
     }
 

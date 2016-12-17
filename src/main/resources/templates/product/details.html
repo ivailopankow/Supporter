@@ -34,10 +34,10 @@
                             </thead>
                             <tbody>
 
-                            <th:block th:each="ticket : ${product.tickets}">
-                                <tr>
+                            <th:block th:each="ticket : ${tickets}">
+                                <tr th:classappend="${!ticket.isSeen() ? 'unseen' : ''}">
                                     <td class="col-md-10" th:text="${ticket.title}"></td>
-                                    <td class="col-md-1">
+                                    <td class="col-md-1" >
                                         <a th:href="@{'/products/subscribed/tickets/view/' + ${product.id} +'/' + ${ticket.id}}">View</a>
                                     </td>
                                     <td class="col-md-1">

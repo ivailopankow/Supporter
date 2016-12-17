@@ -32,4 +32,5 @@ public class Const {
     public static final String NEW_COMMENT_VIEW_KEY = "newComment";
     public static final String SUPPORTED_PRODUCTS = "subscribedProducts";
     public static final String PRODUCT_USER_RELATION_VIEW_KEY = "userProductRelated";
+    public static final String TICKETS_VIEW_KEY = "tickets";
 }

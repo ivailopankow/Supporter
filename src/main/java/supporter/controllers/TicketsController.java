@@ -93,7 +93,7 @@ public class TicketsController extends  BaseController{
         NotificationMessage message = super.generateNotificationMessage(notificationMessage, NotificationMessage.Type.INFO);
         redirectAttributes.addFlashAttribute(Const.NOTIFICATION_MESSAGE_VIEW_KEY, message);
 
-        return "redirect:/products/subscribed/view/" + productId +"/" + ticket.getId();
+        return "redirect:/products/subscribed/view/" + productId;
     }
 
     @GetMapping("/view/{productId}/{id}")
@@ -106,9 +106,14 @@ public class TicketsController extends  BaseController{
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/products/subscribed/tickets/create/" + currentProductId;
         }
-
+        User user = this.userService.getCurrentLoggedUser();
         Product product = this.productService.findById(productId);
         Ticket ticket = this.ticketService.findById(id);
+        if (!ticket.isSeen() && user == product.getProducer()) {
+            ticket.setSeen(true);
+            this.ticketService.edit(ticket);
+        }
+
         model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
         model.addAttribute(Const.TICKET_VIEW_KEY, ticket);
         return "product/ticket/details";

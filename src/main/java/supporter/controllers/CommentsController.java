@@ -89,6 +89,10 @@ public class CommentsController extends BaseController{
         ticket.getComments().add(comment);
         user.getComments().add(comment);
         this.commentService.create(comment);
+        if (user != ticket.getProduct().getProducer()) {
+            ticket.setSeen(false);
+            this.ticketService.edit(ticket);
+        }
 
         String notificationMessage = DisplayedMessages.CREATE_COMMENT_SUCCESS;
         NotificationMessage message = super.generateNotificationMessage(notificationMessage, NotificationMessage.Type.INFO);
@@ -96,6 +100,6 @@ public class CommentsController extends BaseController{
 
 
         model.addAttribute(Const.TICKET_VIEW_KEY, ticket);
-        return "redirect:/products/subscribed/tickets/view/" + ticketId;
+        return "redirect:/products/subscribed/tickets/view/" + ticket.getProduct().getId() + "/" +ticketId;
     }
 }

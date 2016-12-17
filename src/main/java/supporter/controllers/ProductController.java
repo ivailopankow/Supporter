@@ -106,7 +106,7 @@ public class ProductController extends BaseController{
             User entityUser = this.userService.findByEmail(principal.getUsername());
             model.addAttribute(Const.USER_VIEW_KEY, entityUser);
             if (product.getSupportedUsers().size() > 0
-                    && !product.getSupportedUsers().contains(entityUser)) {
+                    || !product.getSupportedUsers().contains(entityUser)) {
                 model.addAttribute("showSubscribe", "subscribe");
             }
 
@@ -124,6 +124,8 @@ public class ProductController extends BaseController{
             return "redirect:/product/create";
         }
 
+        List<Ticket> ticketList = super.getSortedTickets(product.getTickets());
+        model.addAttribute(Const.TICKETS_VIEW_KEY, ticketList);
         model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
 
         return "product/details";

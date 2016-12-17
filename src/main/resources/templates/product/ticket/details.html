@@ -130,7 +130,7 @@
                             </tbody>
                         </table>
                         <form class="form-group" th:object="${commentForm}" th:if="${newComment}"
-                              th:action="@{'/products/subscribed/tickets/view/comment/' + ticket.product.id  +'/'+ ticket.id}"
+                              th:action="@{'/products/subscribed/tickets/view/comment/create/' + ${ticket.id}}"
                               method="post">
                             <!--<label for="ticket_content" class="col-sm-4 control-label">Content</label>-->
                             <div class="row">

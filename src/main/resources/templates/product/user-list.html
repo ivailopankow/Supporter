@@ -18,7 +18,7 @@
                     <tr>
                         <th>Product Name</th>
                         <th>Author</th>
-                        <th>Tickets</th>
+                        <th >Tickets/Not processed</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -29,10 +29,10 @@
                             <td
                                 th:text= "${product.title}"></td>
                             <td th:text="${product.producer.fullName}"></td>
-                            <td th:text="${product.getUnseenTickets().size()}">
+                            <td  th:text="${product.tickets.size()} + ' / '+ ${product.getUnseenTickets().size()}">
 
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <a th:href="@{/product/{id}(id=${product.id })}" class="btn btn-default btn-xs">Read
                                     more &raquo;</a>
                             </td>

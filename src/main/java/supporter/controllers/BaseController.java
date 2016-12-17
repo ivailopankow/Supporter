@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import supporter.models.Category;
 import supporter.models.Product;
+import supporter.models.Ticket;
 import supporter.services.category.CategoryService;
 import supporter.utils.Const;
 import supporter.utils.DisplayedMessages;
@@ -60,4 +61,13 @@ public class BaseController {
         return result;
     }
 
+    List<Ticket> getSortedTickets(Collection<Ticket> tickets) {
+
+        List<Ticket> result = new ArrayList<>(tickets.size());
+        result.addAll(tickets);
+        result = result.stream()
+                .sorted()
+                .collect(Collectors.toList());
+        return result;
+    }
 }
