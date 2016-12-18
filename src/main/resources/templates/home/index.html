@@ -6,21 +6,27 @@
 <body>
 
 <header th:include="fragments/header"></header>
-
-<main>
-    <div class="container body-content">
-        <div class="row">
-            <div class="col-md-6" th:each="category : ${categories}">
-                <header>
-                    <h2>
-                        <a th:href="@{/category/{id}(id=${category.id})}" th:text="${category.name + ' (' + #sets.size(category.products) + ')'}">
-                        </a>
-                    </h2>
-                </header>
-            </div>
+<aside>
+    <h2>Recent Products</h2>
+    <a class="btn btn-primary" href="#" th:each="p : ${latestFiveProducts}" th:text="${p.title}"
+       th:href="@{/product/{id}/(id=${p.id})}">Work Begins on HTML5.1</a>
+</aside>
+<main id="posts">
+    <article class="container body-content" th:each="p : ${latestThreeProducts}">
+        <h2 class="title" th:text="${p.title}">Product Title</h2>
+        <div class="date">
+            <i>Posted on</i>
+            <span th:text="${#dates.format(p.date, 'dd-MMM-yyyy')}">22-May-2016</span>
+            <span th:if="${p.producer}" th:remove="tag">
+                    <i>by</i> <span th:text="${p.producer.fullName != null ?
+                        p.producer.fullName : p.producer.username}">Ivaylo Pankov</span>
+                </span>
         </div>
-    </div>
+        <p class="content" th:utext="${p.content}">Product description</p>
+    </article>
 </main>
+
+
 
 
 <footer th:include="fragments/footer"></footer>

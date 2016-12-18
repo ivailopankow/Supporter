@@ -1,6 +1,7 @@
 package supporter.services.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import supporter.models.Product;
 import supporter.repositories.ProductRepository;
@@ -26,6 +27,12 @@ public class ProductServiceJpaImpl implements ProductService {
                     .collect(Collectors.toList());
         }
         return result;
+    }
+
+    @Override
+    public List<Product> findLatestFive() {
+        return this.productRepository.findLatestFive(new PageRequest(0, 5));
+//        return null;
     }
 
     @Override

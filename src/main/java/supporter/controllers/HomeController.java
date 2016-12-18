@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import supporter.models.Category;
 import supporter.models.Product;
 import supporter.services.category.CategoryService;
+import supporter.services.product.ProductService;
 import supporter.utils.Const;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,10 +25,19 @@ public class HomeController extends BaseController{
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private ProductService productService;
+
     @GetMapping("/")
     public String index(Model model) {
-        List<Category> categories = categoryService.findAll(false);
-        model.addAttribute(Const.CATEGORIES_VIEW_KEY, categories);
+        super.loadCategories(model);
+        List<Product> latestFive = this.productService.findLatestFive();
+        List<Product> latestThree = latestFive.stream()
+                .limit(3)
+                .collect(Collectors.toList());
+
+        model.addAttribute(Const.LATEST_FIVE_VIEW_KEY, latestFive);
+        model.addAttribute(Const.LATEST_THREE_VIEW_KEY, latestThree);
         return "home/index";
     }
 

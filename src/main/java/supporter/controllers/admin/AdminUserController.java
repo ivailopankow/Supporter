@@ -33,13 +33,13 @@ import java.util.Set;
 public class AdminUserController extends BaseController{
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    RoleService roleService;
+    private RoleService roleService;
 
     @GetMapping("/list")
     public String listUsers(Model model){

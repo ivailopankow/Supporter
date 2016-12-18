@@ -31,11 +31,11 @@ public class ValidationRules {
     public static final String CATEGORY_NAME_ERROR_MESSAGE = "Category name should be in the range [" +
             CATEGORY_NAME_MIN_LENGTH + "..." +  CATEGORY_NAME_MAX_LENGTH + "]";
     public static final int TICKET_TITLE_MIN_LENGTH = 4;
-    public static final int TICKET_TITLE_MAX_LENGTH = 15;
+    public static final int TICKET_TITLE_MAX_LENGTH = 100;
     public static final String TICKET_TITLE_ERROR_MESSAGE = "Ticket title should be in the range [" +
             TICKET_TITLE_MIN_LENGTH + "..." +  TICKET_TITLE_MAX_LENGTH + "]";
     public static final int TICKET_CONTENT_MIN_LENGTH = 5;
-    public static final int TICKET_CONTENT_MAX_LENGTH = 100;
+    public static final int TICKET_CONTENT_MAX_LENGTH = 1000;
     public static final String TICKET_CONTENT_ERROR_MESSAGE = "Ticket content should be in the range [" +
             TICKET_CONTENT_MIN_LENGTH + "..." +  TICKET_CONTENT_MAX_LENGTH + "]";
 }

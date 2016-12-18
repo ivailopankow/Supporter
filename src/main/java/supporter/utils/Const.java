@@ -33,4 +33,6 @@ public class Const {
     public static final String SUPPORTED_PRODUCTS = "subscribedProducts";
     public static final String PRODUCT_USER_RELATION_VIEW_KEY = "userProductRelated";
     public static final String TICKETS_VIEW_KEY = "tickets";
+    public static final String LATEST_FIVE_VIEW_KEY = "latestFiveProducts";
+    public static final String LATEST_THREE_VIEW_KEY = "latestThreeProducts";
 }
