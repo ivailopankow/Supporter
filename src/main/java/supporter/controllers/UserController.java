@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Ivaylo on 22-Nov-16.
@@ -139,7 +140,9 @@ public class UserController extends BaseController{
         User loggedUser = this.userService.getCurrentLoggedUser();
         Set<Product> userProducts = loggedUser.getProducts();
         List<Product> productList = super.getSortedProducts(userProducts);
-
+        productList = productList.stream()
+                .filter(p -> !p.isDeleted())
+                .collect(Collectors.toList());
         model.addAttribute(Const.PRODUCTS_VIEW_KEY, productList);
 
         return "product/user-list";
