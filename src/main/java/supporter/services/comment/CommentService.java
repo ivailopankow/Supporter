@@ -7,4 +7,6 @@ import supporter.models.Comment;
  */
 public interface CommentService{
     void create(Comment comment);
+
+    void delete(Long commentId);
 }

@@ -18,4 +18,9 @@ public class CommentServiceJpaImpl implements CommentService{
     public void create(Comment comment) {
         this.commentRepository.saveAndFlush(comment);
     }
+
+    @Override
+    public void delete(Long ticketId) {
+        this.commentRepository.delete(ticketId);
+    }
 }

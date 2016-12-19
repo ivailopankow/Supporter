@@ -21,6 +21,7 @@ public class DisplayedMessages {
     public static final String SUBSRIPTION_SUCCESS = "You have successfully subscribed for support";
     public static final String CREATE_TICKET_SUCCESS = "Ticket successfully created";
     public static final String CREATE_COMMENT_SUCCESS = "Comment added";
+    public static final String DELETE_TICKET_SUCCESS = "Ticket successfully deleted";
     public static String ERROR_IN_FORM = "Please fill the form correctly!";
 
 }

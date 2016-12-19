@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import supporter.models.Product;
+import supporter.models.Ticket;
 import supporter.models.User;
 import supporter.services.product.ProductService;
 import supporter.services.user.UserService;
@@ -20,6 +21,7 @@ import supporter.utils.NotificationMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Ivaylo on 26-Nov-16.
@@ -101,8 +103,11 @@ public class SubscriptionController extends BaseController{
             super.showNonExistingResourceError(redirectAttributes);
             return "redirect:/products/subscribed/list";
         }
-
+        List<Ticket> ticketList = product.getTickets().stream()
+                .filter(t -> t.getAuthor() == user)
+                .collect(Collectors.toList());
         model.addAttribute(Const.PRODUCT_VIEW_KEY, product);
+        model.addAttribute(Const.TICKETS_VIEW_KEY, ticketList);
         return "product/subscription/details";
     }
 
